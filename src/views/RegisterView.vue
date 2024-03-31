@@ -1,7 +1,7 @@
 <template>
-  <main>
-    <p>This is the home page</p>
-  </main>
+  <div class="about">
+    <h1>Register</h1>
+  </div>
 </template>
 
 <script setup lang="ts"></script>

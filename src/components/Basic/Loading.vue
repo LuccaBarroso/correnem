@@ -1,7 +1,5 @@
 <template>
-  <main>
-    <p>This is the home page</p>
-  </main>
+  <p>this will be the loading component</p>
 </template>
 
 <script setup lang="ts"></script>

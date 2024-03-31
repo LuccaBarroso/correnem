@@ -8,13 +8,31 @@
         <BasicLogo />
         <div class="right-side">
           <!-- menu sem estar logado -->
-          <RouterLink to="/login" class="menu-item">Logar</RouterLink>
-          <RouterLink to="/registrar" class="menu-item btn">Registrar</RouterLink>
+          <RouterLink to="/login" class="menu-item" v-if="!user"> Logar </RouterLink>
+          <RouterLink to="/register" class="menu-item btn-padrao" v-if="!user">
+            Registrar
+          </RouterLink>
 
           <!-- menu logado -->
-          <!-- <RouterLink to="/redacoes" class="menu-item">Suas Redações</RouterLink>
-          <RouterLink to="/perfil" class="menu-item">Perfil</RouterLink>
-          <RouterLink to="/nova-redacao" class="menu-item btn">Nova Redação</RouterLink> -->
+          <RouterLink to="/redacoes" class="menu-item" v-if="user"> Suas Redações </RouterLink>
+          <RouterLink to="/perfil" class="menu-item" v-if="user"> Perfil </RouterLink>
+          <RouterLink to="/nova-redacao" class="menu-item btn-padrao" v-if="user">
+            Nova Redação
+            <svg
+              width="14"
+              height="17"
+              viewBox="0 0 14 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0 2C0 0.89543 0.895431 0 2 0H10L14 4V15C14 16.1046 13.1046 17 12 17H2C0.89543 17 0 16.1046 0 15V2ZM6 7H8V10H11V12H8V15H6V12H3V10H6V7ZM13 5H9V1L13 5Z"
+                fill="#FBF7EF"
+              />
+            </svg>
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -23,7 +41,13 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { computed } from 'vue'
 import BasicLogo from '@/components/Basic/Logo.vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const user = computed(() => store.state.login.user)
 </script>
 
 <style lang="scss" scoped>
@@ -49,6 +73,7 @@ import BasicLogo from '@/components/Basic/Logo.vue'
     opacity: 0.3;
     height: 100%;
     border-bottom: 1px solid #044884;
+    z-index: -1;
   }
   .container {
     display: flex;
@@ -62,6 +87,44 @@ import BasicLogo from '@/components/Basic/Logo.vue'
   }
 }
 .spacer {
-  height: 78px;
+  height: 84px;
+}
+
+.menu-item {
+  color: var(--black);
+  font-family: 'Plein-Medium';
+  font-size: 1.2rem;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  display: inline-block;
+  position: relative;
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 3px;
+    background-color: var(--blue);
+    transition: width 0.4s;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &:hover::after {
+    width: 100%;
+  }
+  &.btn-padrao {
+    background-color: var(--blue);
+    color: var(--white);
+    &::after {
+      bottom: -1px;
+    }
+    &:hover {
+      color: var(--blue);
+      background-color: transparent;
+    }
+  }
 }
 </style>
