@@ -1,0 +1,53 @@
+/* import font */
+@import url('./fonts/switzer/css/switzer.css');
+@import url('./fonts/plein/css/plein.css');
+
+:root {
+  --blue: #044884;
+  --white: #ece5f0;
+  --black: #000500;
+  --red: #ed474a;
+}
+
+/*
+Available font families:
+
+font-family: Plein-Light;
+font-family: Plein-LightItalic;
+font-family: Plein-Regular;
+font-family: Plein-Italic;
+font-family: Plein-Medium;
+font-family: Plein-MediumItalic;
+font-family: Plein-Bold;
+font-family: Plein-BoldItalic;
+font-family: Plein-Black;
+font-family: Plein-BlackItalic;
+font-family: Plein-Variable;
+font-family: Plein-VariableItalic;
+
+font-family: Switzer-Thin;
+font-family: Switzer-ThinItalic;
+font-family: Switzer-Extralight;
+font-family: Switzer-ExtralightItalic;
+font-family: Switzer-Light;
+font-family: Switzer-LightItalic;
+font-family: Switzer-Regular;
+font-family: Switzer-Italic;
+font-family: Switzer-Medium;
+font-family: Switzer-MediumItalic;
+font-family: Switzer-Semibold;
+font-family: Switzer-SemiboldItalic;
+font-family: Switzer-Bold;
+font-family: Switzer-BoldItalic;
+font-family: Switzer-Extrabold;
+font-family: Switzer-ExtraboldItalic;
+font-family: Switzer-Black;
+font-family: Switzer-BlackItalic;
+font-family: Switzer-Variable;
+font-family: Switzer-VariableItalic;
+ */
+
+* {
+  font-family: 'Switzer-Regular';
+  font-size: 16px;
+}
