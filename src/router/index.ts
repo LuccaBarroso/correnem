@@ -4,6 +4,8 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import RedacoesView from '../views/RedacoesView.vue'
+import NovaRedacaoView from '../views/nova-redacao/NovaRedacaoView.vue'
+import NovaRedacaoTextoView from '../views/nova-redacao/NovaRedacaoTextoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +29,16 @@ const router = createRouter({
       path: '/redacoes',
       name: 'Redacoes',
       component: RedacoesView
+    },
+    {
+      path: '/nova-redacao',
+      name: 'NovaRedacao',
+      component: NovaRedacaoView
+    },
+    {
+      path: '/nova-redacao/texto',
+      name: 'NovaRedacaoTexto',
+      component: NovaRedacaoTextoView
     }
   ]
 })

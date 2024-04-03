@@ -104,17 +104,22 @@ watch([email, password], () => {
 async function submitForm(e: Event) {
   e.preventDefault()
   if (validateForm()) {
+    loading.value = true
     try {
-      console.log('Before dispatch')
-      loading.value = true
-      await store.dispatch('login/login', { email: email.value, password: password.value })
-      console.log('After dispatch')
+      const result = await store.dispatch('login/login', {
+        email: email.value,
+        password: password.value
+      })
+
+      if (result.error) {
+        throw new Error(result.message)
+      }
+
+      loading.value = false
       router.push('/redacoes')
-      loading.value = false
     } catch (error) {
-      genericError.value = 'Email ou senha inválidos'
       loading.value = false
-      console.error(error)
+      genericError.value = 'Email ou senha inválidos'
     }
   }
 }

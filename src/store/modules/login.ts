@@ -7,13 +7,17 @@ const getters = {}
 
 // actions
 const actions = {
-  async login({ commit }, { email, password }) {
-    if (email === 'admin@' && password === 'admin') {
-      commit('setUser', { email })
-      return Promise.resolve()
-    } else {
-      return Promise.reject('Invalid username or password')
-    }
+  login({ commit }, { email, password }) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (email === 'admin@' && password === 'admin') {
+          commit('setUser', { email })
+          resolve({ error: false })
+        } else {
+          resolve({ error: true, message: 'Usuário ou senha inválidos' })
+        }
+      }, 1000)
+    })
   }
 }
 
