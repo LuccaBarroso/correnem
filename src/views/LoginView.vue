@@ -1,7 +1,7 @@
 <template>
   <div class="login-holder container">
     <div class="generic-card login-card">
-      <BasicLoading v-if="loading" />
+      <BasicLoading v-if="loading" style="margin-inline: auto; margin-block: 60px" />
       <div v-else>
         <div class="texto-topo">
           <h2>Acesse sua conta</h2>

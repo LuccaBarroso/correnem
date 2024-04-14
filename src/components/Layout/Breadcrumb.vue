@@ -23,10 +23,11 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue'
+import { type Breadcrumb } from '@/types/Breadcrumb'
 
 const props = defineProps({
   breadcrumbs: {
-    type: Array,
+    type: Array<Breadcrumb>,
     required: true
   },
   title: {

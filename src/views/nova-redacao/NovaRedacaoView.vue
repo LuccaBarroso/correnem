@@ -23,8 +23,9 @@
 
 <script setup lang="ts">
 import LayoutBreadcrumb from '@/components/Layout/Breadcrumb.vue'
+import { type Breadcrumb } from '@/types/Breadcrumb'
 
-const breadcrumbs = []
+const breadcrumbs: Breadcrumb[] = []
 </script>
 
 <style lang="scss" scoped>
