@@ -7,7 +7,7 @@
     <section class="features-section">
       <div class="container">
         <div class="row">
-          <div class="col-md-3 mb-4">
+          <div class="col-lg-3 col-md-6 col-12 mb-4">
             <div class="feature-box">
               <div class="icon-container">
                 <img src="\public\cadeado.png" alt="Login Seguro e Intuitivo">
@@ -16,7 +16,7 @@
               <p>Garantimos a segurança dos dados dos professores com um sistema de login robusto, além de oferecer uma interface intuitiva para facilitar a navegação.</p>
             </div>
           </div>
-          <div class="col-md-3 mb-4">
+          <div class="col-lg-3 col-md-6 col-12 mb-4">
             <div class="feature-box">
               <div class="icon-container">
                 <img src="\public\blocos.png" alt="Dashboard de Gerenciamento">
@@ -25,7 +25,7 @@
               <p>Os professores têm acesso a um dashboard completo, onde podem adicionar novas redações, visualizar históricos e acessar as correções mais recentes de forma rápida e eficiente.</p>
             </div>
           </div>
-          <div class="col-md-3 mb-4">
+          <div class="col-lg-3 col-md-6 col-12 mb-4">
             <div class="feature-box">
               <div class="icon-container">
                 <img src="\public\notas.png" alt="Correção Automatizada com IA">
@@ -34,7 +34,7 @@
               <p>Utilizando inteligência artificial, destacamos trechos das redações que necessitam de correção e oferecemos sugestões para aprimoramento. O professor tem autonomia de editar as correções conforme necessário.</p>
             </div>
           </div>
-          <div class="col-md-3 mb-4">
+          <div class="col-lg-3 col-md-6 col-12 mb-4">
             <div class="feature-box">
               <div class="icon-container">
                 <img src="\public\notas2.png" alt="Avaliação Baseada em Competências">

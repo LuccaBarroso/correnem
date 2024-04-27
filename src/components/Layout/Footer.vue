@@ -32,6 +32,7 @@
 
 <style lang="scss" scoped>
 .footer  {
+  margin-top: 16%;
   background: linear-gradient(91.2deg, #044884 0.06%, #000500 129.53%);
   color: var(--white); // Define this variable in your root styles or replace with actual color code
   padding: 20px 0;
