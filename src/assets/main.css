@@ -131,3 +131,10 @@ font-family: Switzer-VariableItalic;
     grid-template-columns: 1fr;
   }
 }
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}

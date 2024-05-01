@@ -155,9 +155,8 @@ const showMenu = ref(false)
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
-    padding-block: 20px;
+    padding-block: 10px;
   }
 }
 .spacer {

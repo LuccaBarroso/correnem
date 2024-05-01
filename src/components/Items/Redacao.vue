@@ -111,7 +111,6 @@ const loaded = computed(() => props.redacao.id !== 0)
       left: 0;
       width: 100%;
       height: 100%;
-      top: 50%;
       .loading {
         scale: 0.8;
         transform: translateY(-50%);
