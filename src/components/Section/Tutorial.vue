@@ -42,6 +42,24 @@
         <div
           :class="['slide', curActive === 2 ? 'active' : '', curInactive === 2 ? 'inactive' : '']"
         >
+          <div class="anim-segunda">
+            <div class="input">Arraste aqui o Arquivo</div>
+            <svg
+              class="file"
+              width="64"
+              height="80"
+              viewBox="0 0 64 80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M7.87695 0H41.0945L64 21.895V72.4707C64 76.6289 60.4734 80 56.123 80H7.87695C3.52661 80 0 76.6289 0 72.4707V7.5293C0 3.37109 3.52661 0 7.87695 0ZM57 22L41 7V22H57ZM16 40H48V48H16V40ZM48 56H16V64H48V56Z"
+                fill="#044884"
+              />
+            </svg>
+          </div>
           <div class="generic-card">
             <p>Envie a redação</p>
           </div>
@@ -179,6 +197,34 @@ btns.forEach((btn: any) => {
   }
 }
 
+.anim-segunda {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  .input {
+    width: 50%;
+    margin-inline: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed var(--blue);
+    border-radius: 5px;
+    font-family: 'Plein-Bold';
+    font-size: 1.2rem;
+    color: var(--blue);
+    padding-block: 30px;
+  }
+  svg.file {
+    position: absolute;
+    left: -25%;
+    animation: cursor-segunda 5s infinite;
+  }
+}
+
 @keyframes cursor-primeira {
   0% {
     opacity: 0;
@@ -213,6 +259,36 @@ btns.forEach((btn: any) => {
   }
   100% {
     left: 75%;
+  }
+}
+
+@keyframes cursor-segunda {
+  0% {
+    opacity: 0;
+    left: 120%;
+  }
+  10% {
+    opacity: 1;
+    left: 120%;
+    transform: translateY(-50%);
+  }
+  70% {
+    opacity: 1;
+    left: 30%;
+    scale: 1;
+    transform: translateY(-30%) rotate(0deg);
+  }
+  85% {
+    opacity: 0;
+    left: 30%;
+    scale: 0;
+    transform: translateY(20%) rotate(-45deg);
+  }
+  100% {
+    opacity: 0;
+    left: 30%;
+    scale: 1;
+    transform: translateY(20%) rotate(-45deg);
   }
 }
 
