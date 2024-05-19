@@ -6,6 +6,7 @@ import RegisterView from '../views/RegisterView.vue'
 import RedacoesView from '../views/RedacoesView.vue'
 import NovaRedacaoView from '../views/nova-redacao/NovaRedacaoView.vue'
 import NovaRedacaoTextoView from '../views/nova-redacao/NovaRedacaoTextoView.vue'
+import perfil from '../views/PerfilView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/nova-redacao/texto',
       name: 'NovaRedacaoTexto',
       component: NovaRedacaoTextoView
+    },
+    {
+      path: '/perfil',
+      name: 'Perfil',
+      component: perfil
     }
   ]
 })

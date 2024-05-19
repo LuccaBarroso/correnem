@@ -7,7 +7,7 @@ const getters = {}
 
 // actions
 const actions = {
-  login({ commit }, { email, password }) {
+  register({ commit }, { name, email, password }) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (email === 'admin@admin.com' && password === 'admin') {

@@ -29,13 +29,13 @@
       </div>
       <div class="contact">
         <h4>Contato</h4>
-        <p>contato@gmail.com</p>
+        <p>correnem@gmail.com</p>
       </div>
       <div class="menu">
         <h4>Opções sla</h4>
         <ul>
-          <li><a href="#login" class="menu-item-footer">teste</a></li>
-          <li><a href="#register" class="menu-item-footer">teste</a></li>
+          <li><a href="#login" class="menu-item-footer">Login</a></li>
+          <li><a href="#register" class="menu-item-footer">Registrar</a></li>
         </ul>
       </div>
     </div>

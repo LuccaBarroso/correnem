@@ -133,6 +133,11 @@ async function submitForm(e: Event) {
   @media (max-width: 992px) {
     padding-inline: 60px;
   }
+  @media (min-width: 992px) {
+    margin-inline: auto;
+    max-width: 700px;
+    padding-inline: 70px;
+  }
   @media (max-width: 400px) {
     padding-inline: 30px;
     padding-block: 70px;
