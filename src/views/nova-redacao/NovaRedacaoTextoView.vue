@@ -44,16 +44,20 @@
         </button>
       </div>
     </form>
+    <LoadingOverlay v-if="loading" />
   </div>
 </template>
 
 <script setup lang="ts">
+import LoadingOverlay from '@/components/Basic/LoadingOverlay.vue'
 import LayoutBreadcrumb from '@/components/Layout/Breadcrumb.vue'
 import { type Breadcrumb } from '@/types/Breadcrumb'
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 const store = useStore()
+const router = useRouter()
 
 const title = ref<string>('')
 const text = ref<string>('')
@@ -100,16 +104,24 @@ const createRedacao = (e) => {
         theme: theme.value
       })
       .then(() => {
-        console.log('Redação criada com sucesso')
+        error.value = ''
+        router.push('/result')
+        loading.value = false
       })
       .catch((err) => {
+        loading.value = false
         error.value = err.message
       })
+  } else {
+    loading.value = false
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.container {
+  position: relative;
+}
 .back-link {
   color: var(--black);
   margin-bottom: 5;
@@ -142,6 +154,7 @@ const createRedacao = (e) => {
 .final {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 10px;
 }
 .btn-padrao {
   padding: 5px 20px;
