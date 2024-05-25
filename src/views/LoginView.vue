@@ -164,12 +164,7 @@ async function submitForm(e: Event) {
   }
   form {
     margin-top: 20px;
-    .error-input {
-      font-family: 'Plein-Medium';
-      font-size: 0.9rem;
-      color: var(--red);
-      margin-top: 5px;
-    }
+
     .input-group {
       margin-block: 10px 0px;
       display: flex;

@@ -14,15 +14,17 @@
           </div>
           <div :class="['menu', { active: showMenu }]">
             <!-- menu sem estar logado -->
-            <RouterLink to="/login" class="menu-item" v-if="!user"> Logar </RouterLink>
-            <RouterLink to="/register" class="menu-item btn-padrao" v-if="!user">
+            <RouterLink to="/login" class="menu-item" v-if="!isLogged"> Logar </RouterLink>
+            <RouterLink to="/register" class="menu-item btn-padrao" v-if="!isLogged">
               Registrar
             </RouterLink>
 
             <!-- menu logado -->
-            <RouterLink to="/redacoes" class="menu-item" v-if="user"> Suas Redações </RouterLink>
-            <RouterLink to="/perfil" class="menu-item" v-if="user"> Perfil </RouterLink>
-            <RouterLink to="/nova-redacao" class="menu-item btn-padrao" v-if="user">
+            <RouterLink to="/redacoes" class="menu-item" v-if="isLogged">
+              Suas Redações
+            </RouterLink>
+            <RouterLink to="/perfil" class="menu-item" v-if="isLogged"> Perfil </RouterLink>
+            <RouterLink to="/nova-redacao" class="menu-item btn-padrao" v-if="isLogged">
               Nova Redação
               <svg
                 width="14"
@@ -54,7 +56,7 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 
-const user = computed(() => store.state.login.user)
+const isLogged = computed(() => store.state.login.isLogged)
 
 const showMenu = ref(false)
 </script>

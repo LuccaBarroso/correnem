@@ -138,3 +138,12 @@ font-family: Switzer-VariableItalic;
   flex-direction: column;
   overflow-x: hidden;
 }
+
+.form {
+  .error-input {
+    font-family: 'Plein-Medium';
+    font-size: 0.9rem;
+    color: var(--red);
+    margin-top: 5px;
+  }
+}

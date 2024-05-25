@@ -38,6 +38,7 @@
           text="Usar a câmera desse dispositivo para tirar uma foto da redação"
           btnText="Escanear"
           to="/nova-redacao/texto"
+          disabled
         >
           <template v-slot:svg>
             <svg
@@ -60,6 +61,7 @@
           text="Já tem a foto da redação, precisa apenas enviar"
           btnText="Enviar foto"
           to="/nova-redacao/texto"
+          disabled
         >
           <template v-slot:svg>
             <svg

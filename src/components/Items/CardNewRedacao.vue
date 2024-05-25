@@ -1,11 +1,18 @@
 <template>
-  <RouterLink class="item generic-card option-redacao" :to="props.to">
+  <RouterLink class="item generic-card option-redacao" :to="props.to" v-if="!props.disabled">
     <p>{{ props.text }}</p>
     <div class="fake-btn">
       {{ props.btnText }}
       <slot name="svg"></slot>
     </div>
   </RouterLink>
+  <div class="item generic-card option-redacao disabled" v-else>
+    <p>{{ props.text }}</p>
+    <div class="fake-btn">
+      {{ props.btnText }}
+      <slot name="svg"></slot>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -24,6 +31,10 @@ const props = defineProps({
   to: {
     type: String,
     required: true
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
@@ -77,7 +88,7 @@ const props = defineProps({
       left: 50%;
     }
   }
-  &:hover .fake-btn {
+  &:not(.disabled):hover .fake-btn {
     background-color: var(--blue-dark);
     color: var(--blue);
     scale: 1.05;
@@ -87,6 +98,26 @@ const props = defineProps({
     &::after {
       width: 100%;
       left: 0;
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+    position: relative;
+    &::after {
+      content: 'Em Breve';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000c0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 1.5rem;
+      font-family: 'Plein-Medium';
     }
   }
 }

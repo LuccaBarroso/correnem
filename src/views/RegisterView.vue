@@ -160,11 +160,21 @@ async function submitForm(e: Event) {
       })
 
       if (result.error) {
-        throw new Error(result.message)
+        genericError.value = result.message
+      } else {
+        const loginResult = await store
+          .dispatch('login/login', {
+            email: email.value,
+            password: password.value
+          })
+          .then(() => {
+            router.push('/redacoes')
+          })
+          .catch(() => {
+            genericError.value = 'Erro ao logar, mas sua conta foi criada'
+          })
       }
-
       loading.value = false
-      router.push('/redacoes')
     } catch (error) {
       loading.value = false
       genericError.value = 'Email ou senha inválidos'

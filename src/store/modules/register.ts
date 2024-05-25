@@ -7,16 +7,32 @@ const getters = {}
 
 // actions
 const actions = {
-  register({ commit }, { name, email, password }) {
+  register(
+    { commit }: { commit: any },
+    { name, email, password }: { name: string; email: string; password: string }
+  ) {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (email === 'admin@admin.com' && password === 'admin') {
-          commit('setUser', { email })
-          resolve({ error: false })
-        } else {
-          resolve({ error: true, message: 'Usuário ou senha inválidos' })
-        }
-      }, 1000)
+      fetch(import.meta.env.VITE_APP_API_URL + '/correnem-usuario-ms/usuario/cadastro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nome: name, email, senha: password })
+      })
+        .then((response) => {
+          return { data: response.json(), status: response.status }
+        })
+        .then(async (data) => {
+          const responseData = await data.data
+          if (data.status === 200) {
+            resolve({ error: false, message: 'Usuário cadastrado com sucesso' })
+          } else {
+            resolve({ error: true, message: responseData?.message })
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   }
 }

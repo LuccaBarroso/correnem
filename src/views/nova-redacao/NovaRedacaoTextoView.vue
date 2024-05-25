@@ -1,8 +1,13 @@
 <template>
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Cadastrando Nova Redação" />
   <div class="container">
-    <RouterLink to="/redacoes" class="back-link"> Mudar forma de envio </RouterLink>
-    <div class="redacoes">
+    <RouterLink to="/nova-redacao" class="back-link"> Mudar forma de envio </RouterLink>
+    <form class="redacoes form">
+      <div class="input">
+        <label>Qual o titulo da sua redação?</label>
+        <input type="text" v-model="title" placeholder="Título da redação" />
+        <div class="error-input" v-if="errorTitle">{{ errorTitle }}</div>
+      </div>
       <div class="input">
         <label>Cole ou digite o texto da sua redação:</label>
         <textarea
@@ -11,13 +16,16 @@
           rows="10"
           cols="50"
         ></textarea>
+        <div class="error-input" v-if="errorText">{{ errorText }}</div>
       </div>
       <div class="input">
         <label>Qual o tema da sua redação?</label>
         <input type="text" v-model="theme" placeholder="Tema da redação" />
+        <div class="error-input" v-if="errorTheme">{{ errorTheme }}</div>
       </div>
+      <div class="error-input" v-if="error">{{ error }}</div>
       <div class="final">
-        <button to="/nova-redacao" class="btn-padrao">
+        <button class="btn-padrao" @click="createRedacao">
           Criar Redação
           <svg
             width="14"
@@ -35,7 +43,7 @@
           </svg>
         </button>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -43,10 +51,62 @@
 import LayoutBreadcrumb from '@/components/Layout/Breadcrumb.vue'
 import { type Breadcrumb } from '@/types/Breadcrumb'
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 
+const store = useStore()
+
+const title = ref<string>('')
 const text = ref<string>('')
 const theme = ref<string>('')
 const breadcrumbs: Breadcrumb[] = []
+const loading = ref<boolean>(false)
+
+const errorTitle = ref<string>('')
+const errorText = ref<string>('')
+const errorTheme = ref<string>('')
+const error = ref<string>('')
+
+const validate = () => {
+  let isValid = true
+  if (!title.value) {
+    errorTitle.value = 'O título da redação é obrigatório'
+    isValid = false
+  } else {
+    errorTitle.value = ''
+  }
+  if (!text.value) {
+    errorText.value = 'O texto da redação é obrigatório'
+    isValid = false
+  } else {
+    errorText.value = ''
+  }
+  if (!theme.value) {
+    errorTheme.value = 'O tema da redação é obrigatório'
+    isValid = false
+  } else {
+    errorTheme.value = ''
+  }
+  return isValid
+}
+
+const createRedacao = (e) => {
+  e.preventDefault()
+  loading.value = true
+  if (validate()) {
+    store
+      .dispatch('redacao/createRedacao', {
+        title: title.value,
+        text: text.value,
+        theme: theme.value
+      })
+      .then(() => {
+        console.log('Redação criada com sucesso')
+      })
+      .catch((err) => {
+        error.value = err.message
+      })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
