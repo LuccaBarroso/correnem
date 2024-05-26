@@ -27,7 +27,69 @@ const actions = {
           const responseData = await data.data
           if (data.status === 200) {
             commit('setRedacaoAtual', responseData)
-            resolve({ error: false, message: 'Redação cadastrada com sucesso' })
+            resolve({
+              error: false,
+              message: 'Redação cadastrada com sucesso',
+              id: responseData.redacao.id
+            })
+          } else {
+            resolve({ error: true, message: responseData?.message })
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  getRedacoes({ commit }: { commit: any }, { page, limit }: { page: number; limit: number }) {
+    return new Promise((resolve, reject) => {
+      fetch(
+        import.meta.env.VITE_APP_API_URL +
+          '/correnem-redacao-ms/redacao/redacoes/' +
+          limit +
+          '/' +
+          page,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        }
+      )
+        .then((response) => {
+          return { data: response.json(), status: response.status }
+        })
+        .then(async (data) => {
+          const responseData = await data.data
+          if (data.status === 200) {
+            resolve({ error: false, data: responseData })
+          } else {
+            resolve({ error: true, message: responseData?.message })
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  getRedacaoById({ commit }: { commit: any }, { id }: { id: string }) {
+    return new Promise((resolve, reject) => {
+      fetch(import.meta.env.VITE_APP_API_URL + '/correnem-redacao-ms/redacao/' + id, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
+        .then((response) => {
+          return { data: response.json(), status: response.status }
+        })
+        .then(async (data) => {
+          const responseData = await data.data
+          if (data.status === 200) {
+            commit('setRedacaoAtual', responseData)
+            resolve({ error: false, data: responseData })
           } else {
             resolve({ error: true, message: responseData?.message })
           }

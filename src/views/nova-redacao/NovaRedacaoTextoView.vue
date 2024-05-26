@@ -103,9 +103,9 @@ const createRedacao = (e) => {
         text: text.value,
         theme: theme.value
       })
-      .then(() => {
+      .then((result) => {
         error.value = ''
-        router.push('/result')
+        router.push('/redacao/' + result.id)
         loading.value = false
       })
       .catch((err) => {

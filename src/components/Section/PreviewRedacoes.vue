@@ -2,10 +2,10 @@
   <div class="preview-redacoes">
     <div class="topo">
       <h3>{{ title }}</h3>
-      <RouterLink :to="linkVerTodas">Ver todas</RouterLink>
+      <RouterLink :to="linkVerTodas" v-if="linkVerTodas">Ver todas</RouterLink>
     </div>
-    <div class="grid-redacoes" v-if="redacoes.length > 0">
-      <ItemRedacao v-for="(redacao, index) in redacoes" :key="index" :redacao="redacao" />
+    <div class="grid-redacoes" v-if="actualRedacoes.length > 0">
+      <ItemRedacao v-for="(redacao, index) in actualRedacoes" :key="index" :redacao="redacao" />
     </div>
     <div class="no-result" v-else>
       <h3>Nenhuma redação encontrada.</h3>
@@ -14,43 +14,23 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, ref, onMounted, watch } from 'vue'
 import ItemRedacao from '@/components/Items/Redacao.vue'
 import { type Redacao } from '@/types/Redacao'
+
+const actualRedacoes = ref<Redacao[]>([])
+
+onMounted(() => {
+  if (props.redacoes.length === 0) {
+    resetRedacoes()
+  } else {
+    actualRedacoes.value = props.redacoes
+  }
+})
 
 const props = defineProps({
   redacoes: {
     type: Array<Redacao>,
-    default: [
-      {
-        id: 0,
-        date: '',
-        result: 0,
-        status: '',
-        img: ''
-      },
-      {
-        id: 0,
-        date: '',
-        result: 0,
-        status: '',
-        img: ''
-      },
-      {
-        id: 0,
-        date: '',
-        result: 0,
-        status: '',
-        img: ''
-      },
-      {
-        id: 0,
-        date: '',
-        result: 0,
-        status: '',
-        img: ''
-      }
-    ],
     required: false
   },
   title: {
@@ -58,10 +38,36 @@ const props = defineProps({
     required: true
   },
   linkVerTodas: {
-    type: String,
-    required: true
+    type: String
+  },
+  initialQuantity: {
+    type: Number,
+    default: 4
   }
 })
+
+function resetRedacoes() {
+  actualRedacoes.value = []
+  for (let i = 0; i < props.initialQuantity; i++) {
+    actualRedacoes.value.push({
+      title: '',
+      id: 0,
+      dataInclusao: new Date(),
+      finalScore: 0
+    })
+  }
+}
+
+watch(
+  () => props.redacoes,
+  (newRedacoes) => {
+    if (newRedacoes.length === 0) {
+      resetRedacoes()
+      return
+    }
+    actualRedacoes.value = newRedacoes
+  }
+)
 </script>
 
 <style lang="scss" scoped>

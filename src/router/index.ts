@@ -7,7 +7,7 @@ import RedacoesView from '../views/RedacoesView.vue'
 import NovaRedacaoView from '../views/nova-redacao/NovaRedacaoView.vue'
 import NovaRedacaoTextoView from '../views/nova-redacao/NovaRedacaoTextoView.vue'
 import perfil from '../views/PerfilView.vue'
-import ResultRedacaoView from '../views/ResultRedacaoView.vue'
+import RedacaoView from '../views/RedacaoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,9 +48,9 @@ const router = createRouter({
       component: perfil
     },
     {
-      path: '/result',
-      name: 'Result',
-      component: ResultRedacaoView
+      path: '/redacao/:id',
+      name: 'Redacao',
+      component: RedacaoView
     }
   ]
 })

@@ -1,16 +1,16 @@
 <template>
   <RouterLink class="item-redacao" :to="'/redacao/' + props.redacao.id" v-if="loaded">
     <div class="imagem">
-      <img :src="props.redacao.img" alt="Redação" />
-      <div :class="['overlay', { title: showTitle }]">
-        <h4 v-if="showTitle">{{ props.redacao.status }}</h4>
-        <h4 v-else>{{ props.redacao.result }}</h4>
+      <img src="/default-redacao.jpg" alt="Redação" />
+      <div :class="['overlay']">
+        <h4>{{ props.redacao.finalScore }}</h4>
       </div>
     </div>
     <div class="info">
+      <p class="title">{{ props.redacao.title }}</p>
       <h4 class="data">
         {{
-          new Date(props.redacao.date).toLocaleDateString('pt-BR', {
+          new Date(props.redacao.dataInclusao).toLocaleDateString('pt-BR', {
             day: 'numeric',
             month: 'long',
             year: 'numeric'
@@ -41,7 +41,6 @@ const props = defineProps<{
   redacao: Redacao
 }>()
 
-const showTitle = computed(() => props.redacao.status !== 'Corrigida')
 const loaded = computed(() => props.redacao.id !== 0)
 </script>
 
@@ -85,10 +84,26 @@ const loaded = computed(() => props.redacao.id !== 0)
 }
 .item-redacao {
   text-decoration: none;
-  h4 {
-    font-size: 1.2rem;
+  .info {
+    position: relative;
+  }
+  p.title {
+    font-size: 1.3rem;
     font-family: 'Switzer-Medium';
     margin: 0;
+    color: var(--black);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: absolute;
+    overflow: hidden !important;
+    max-width: calc(100% - 20px);
+    top: 0;
+  }
+  h4 {
+    padding: 30px 0 0 0;
+    margin: 0;
+    font-size: 1.2rem;
+    font-family: 'Switzer-Medium';
     text-decoration: none;
     color: var(--black);
   }

@@ -2,62 +2,56 @@
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Suas Redações" />
   <div class="container">
     <div class="redações">
-      <PreviewRedacoes
-        :redacoes="redacoes"
-        title="Redações Mais Recentes"
-        linkVerTodas="/redacoes/mais-recentes"
+      <PreviewRedacoes :redacoes="redacoes" title="Redações Mais Recentes" initialQuantity="12" />
+      <Pagination
+        :totalPages="totalPages"
+        :curPage="curPage"
+        @changePage="getPage"
+        :disabled="loading"
       />
-      <PreviewRedacoes
-        :redacoes="[]"
-        title="Redações Mais Recentes"
-        linkVerTodas="/redacoes/mais-recentes"
-      />
-      <PreviewRedacoes title="Carregando Exemplo" linkVerTodas="/redacoes/mais-recentes" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import Pagination from '@/components/Basic/Pagination.vue'
 import PreviewRedacoes from '@/components/Section/PreviewRedacoes.vue'
 import LayoutBreadcrumb from '@/components/Layout/Breadcrumb.vue'
 import { ref, onMounted } from 'vue'
 import { type Redacao } from '@/types/Redacao'
 import { type Breadcrumb } from '@/types/Breadcrumb'
+import { useStore } from 'vuex'
+
+const store = useStore()
 
 const breadcrumbs: Breadcrumb[] = []
 const redacoes = ref<Redacao[]>([])
+const totalPages = ref(0)
+const curPage = ref(0)
+const loading = ref(false)
+
+function getPage(page: number) {
+  curPage.value = page
+  loading.value = true
+  redacoes.value = []
+  store
+    .dispatch('redacao/getRedacoes', { page: curPage.value, limit: 12 })
+    .then((res) => {
+      setTimeout(() => {
+        redacoes.value = res.data.pagina.content
+        totalPages.value = res.data.pagina.totalPages
+        console.log(res.data.pagina.content)
+        loading.value = false
+      }, 1000)
+    })
+    .catch((err) => {
+      loading.value = false
+      console.error(err)
+    })
+}
 
 onMounted(() => {
-  redacoes.value = [
-    {
-      id: 1,
-      date: '2021-09-01',
-      result: 700,
-      status: 'Não Corrigida',
-      img: '/default-redacao.jpg'
-    },
-    {
-      id: 2,
-      date: '2021-09-02',
-      result: 800,
-      status: 'Semi-corrigida',
-      img: '/default-redacao.jpg'
-    },
-    {
-      id: 3,
-      date: '2021-09-03',
-      result: 900,
-      status: 'Corrigida',
-      img: '/default-redacao.jpg'
-    },
-    {
-      id: 4,
-      date: '2021-09-04',
-      result: 1000,
-      status: 'Corrigida',
-      img: '/default-redacao.jpg'
-    }
-  ]
+  getPage(0)
 })
 </script>
 
