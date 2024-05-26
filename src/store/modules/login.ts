@@ -1,6 +1,8 @@
 const state = () => ({
   isLogged: false,
-  loggedTime: null
+  loggedTime: null,
+  user: null,
+  name: ''
 })
 
 // getters
@@ -84,6 +86,82 @@ const actions = {
           reject(error)
         })
     })
+  },
+  getUserProfile({ commit }: { commit: any }) {
+    return new Promise((resolve, reject) => {
+      fetch(import.meta.env.VITE_APP_API_URL + '/correnem-usuario-ms/usuario/dados-perfil', {
+        method: 'GET',
+        credentials: 'include'
+      })
+        .then((response) => {
+          return { data: response.json(), status: response.status }
+        })
+        .then(async (data) => {
+          if (data.status === 200) {
+            commit('setUser', await data.data)
+            resolve(data)
+          } else {
+            reject(data)
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  updateName({ commit }: { commit: any }, { name }: { name: string }) {
+    return new Promise((resolve, reject) => {
+      fetch(import.meta.env.VITE_APP_API_URL + '/correnem-usuario-ms/usuario/editar-perfil', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nome: name }),
+        credentials: 'include'
+      })
+        .then((response) => {
+          return { data: response.json(), status: response.status }
+        })
+        .then(async (data) => {
+          if (data.status === 200) {
+            commit('setUserName', name)
+            resolve(data)
+          } else {
+            reject(data)
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  updatePassword(
+    { commit }: { commit: any },
+    { passwordNew, passwordOld }: { passwordNew: string; passwordOld: string }
+  ) {
+    return new Promise((resolve, reject) => {
+      fetch(import.meta.env.VITE_APP_API_URL + '/correnem-usuario-ms/usuario/editar-perfil', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ senhaantiga: passwordOld, senhanova: passwordNew }),
+        credentials: 'include'
+      })
+        .then((response) => {
+          return { data: response.json(), status: response.status }
+        })
+        .then(async (data) => {
+          if (data.status === 200) {
+            resolve(data)
+          } else {
+            reject({ status: 500, data: await data.data })
+          }
+        })
+        .catch(async (error) => {
+          reject({ status: 500, data: await error.json() })
+        })
+    })
   }
 }
 
@@ -94,6 +172,14 @@ const mutations = {
   },
   setLoggedTime(state: any, loggedTime: Date) {
     state.loggedTime = loggedTime
+  },
+  setUser(state: any, user: any) {
+    state.user = user
+    state.name = user.perfil.nome
+  },
+  setUserName(state: any, name: string) {
+    state.user.nome = name
+    state.name = name
   }
 }
 

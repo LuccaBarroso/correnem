@@ -1,11 +1,12 @@
 <template>
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Perfil" />
   <div class="container">
-    <p>
-      Olá, <strong>{{ name }}</strong> este é o seu perfil. Aqui você pode alterar suas informações.
+    <p v-if="userName">
+      Olá, <strong>{{ userName }}</strong> este é o seu perfil. Aqui você pode alterar suas
+      informações.
     </p>
-    <CardEditName :name="name" />
-    <CardEditPassword />
+    <CardEditName :name="userName" v-if="userName" />
+    <CardEditPassword v-if="userName" />
     <button class="btn-padrao" @click="logout">Deslogar</button>
   </div>
 </template>
@@ -15,18 +16,20 @@ import LayoutBreadcrumb from '@/components/Layout/Breadcrumb.vue'
 import CardEditName from '@/components/Items/CardEditName.vue'
 import CardEditPassword from '@/components/Items/CardEditPassword.vue'
 import { type Breadcrumb } from '@/types/Breadcrumb'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-
-const name = ref<string>('')
 
 const store = useStore()
 const router = useRouter()
 
-onMounted(() => {
-  name.value = 'Fulano'
+const userName = computed(() => {
+  return store.state.login.name
 })
+
+if (!userName.value) {
+  store.dispatch('login/getUserProfile')
+}
 
 const breadcrumbs: Breadcrumb[] = []
 

@@ -40,13 +40,11 @@ function getPage(page: number) {
       setTimeout(() => {
         redacoes.value = res.data.pagina.content
         totalPages.value = res.data.pagina.totalPages
-        console.log(res.data.pagina.content)
         loading.value = false
       }, 1000)
     })
     .catch((err) => {
       loading.value = false
-      console.error(err)
     })
 }
 

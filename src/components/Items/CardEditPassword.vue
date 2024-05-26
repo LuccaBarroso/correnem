@@ -4,7 +4,7 @@
       <strong>Editar senha</strong>
     </template>
     <template #form>
-      <form @submit.prevent="submitForm">
+      <form @submit.prevent="submitForm" class="form">
         <div class="form-group mb-3">
           <label for="oldPassword">Senha Atual:</label>
           <div class="input-holder" :class="{ error: oldPasswordError }">
@@ -48,10 +48,12 @@
         </div>
 
         <div class="error-input" v-if="genericError">{{ genericError }}</div>
+        <div class="alert alert-success" v-if="successMessage">{{ successMessage }}</div>
         <div class="final-line row">
           <div class="col-lg-12 d-flex justify-content-end align-items-center">
             <button
               type="submit"
+              :disabled="!isValidForm"
               :class="['btn-padrao', { inactive: !isValidForm }]"
               @click="submitForm"
             >
@@ -66,7 +68,7 @@
 
 <script setup lang="ts">
 import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import ProfileCard from '@/components/Items/ProfileCard.vue'
 
 const store = useStore()
@@ -77,21 +79,65 @@ const newPassword = ref('')
 const newPasswordError = ref('')
 const confirmNewPassword = ref('')
 const confirmNewPasswordError = ref('')
+const successMessage = ref('')
 
 const genericError = ref('')
 const isValidForm = ref(false)
 
-const submitForm = () => {
-  if (!name.value) {
-    nameError.value = 'Campo obrigatório'
+watch([oldPassword, newPassword, confirmNewPassword], () => {
+  successMessage.value = ''
+  if (!oldPassword.value) {
+    oldPasswordError.value = 'Campo obrigatório'
   } else {
-    nameError.value = ''
+    oldPasswordError.value = ''
+  }
+  if (!newPassword.value) {
+    newPasswordError.value = 'Campo obrigatório'
+  } else {
+    newPasswordError.value = ''
+  }
+  if (!confirmNewPassword.value) {
+    confirmNewPasswordError.value = 'Campo obrigatório'
+  } else {
+    confirmNewPasswordError.value = ''
   }
 
-  if (nameError.value) {
-    return
+  if (oldPassword.value && newPassword.value && confirmNewPassword.value) {
+    if (newPassword.value != confirmNewPassword.value) {
+      confirmNewPasswordError.value = 'As senhas não coincidem'
+      isValidForm.value = false
+    } else {
+      confirmNewPasswordError.value = ''
+      isValidForm.value = true
+    }
+  } else {
+    isValidForm.value = false
   }
+})
 
-  isValidForm.value = true
+const submitForm = () => {
+  store
+    .dispatch('login/updatePassword', {
+      passwordNew: newPassword.value,
+      passwordOld: oldPassword.value
+    })
+    .then(() => {
+      oldPassword.value = ''
+      newPassword.value = ''
+      confirmNewPassword.value = ''
+      genericError.value = ''
+      isValidForm.value = false
+      successMessage.value = 'Senha alterada com sucesso'
+      setTimeout(() => {
+        oldPasswordError.value = ''
+        newPasswordError.value = ''
+        confirmNewPasswordError.value = ''
+      }, 20)
+    })
+    .catch((error) => {
+      genericError.value = error.data.message
+    })
+
+  isValidForm.value = false
 }
 </script>

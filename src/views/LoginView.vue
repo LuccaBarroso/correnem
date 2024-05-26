@@ -9,7 +9,7 @@
             <p>Ainda não tem uma conta ? <span>Clique aqui</span> para se registrar</p>
           </RouterLink>
         </div>
-        <form>
+        <form class="form" @submit="submitForm">
           <div class="input-group">
             <label for="email">Email:</label>
             <div class="input-holder" :class="{ error: emailError }">
