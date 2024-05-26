@@ -55,6 +55,10 @@ const props = defineProps({
   },
   delay: {
     type: Number
+  },
+  infinity: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -63,7 +67,6 @@ const initialVal = ref<number>(0)
 
 setTimeout(() => {
   active.value = true
-
   incrementValue()
 }, props.delay)
 
@@ -71,7 +74,13 @@ const incrementValue = () => {
   const interval = setInterval(() => {
     if (initialVal.value < props.nota) {
       initialVal.value += 1
-    } else {
+    } else if (props.infinity && initialVal.value == props.nota) {
+      setTimeout(() => {
+        initialVal.value = 0
+        incrementValue()
+      }, 1000)
+      clearInterval(interval)
+    } else if (!props.infinity) {
       clearInterval(interval)
     }
   }, 10)

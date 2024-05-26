@@ -67,6 +67,17 @@
         <div
           :class="['slide', curActive === 3 ? 'active' : '', curInactive === 3 ? 'inactive' : '']"
         >
+          <div class="nota-final mb-5">
+            <CardNotaCompetencia
+              title="Nota Final"
+              tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
+              nota="1000"
+              maxNota="1000"
+              :delay="700"
+              class="resultado"
+              infinity
+            />
+          </div>
           <div class="generic-card">
             <p>Veja a correção da IA e faça os ajustes necessários</p>
           </div>
@@ -90,6 +101,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import CardNotaCompetencia from '@/components/Items/CardNotaCompetencia.vue'
 
 let length = 3
 let curActive = ref(1)
@@ -380,6 +392,16 @@ btns.forEach((btn: any) => {
       background-color: var(--blue);
       color: var(--white);
     }
+  }
+}
+
+.nota-final {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+  .resultado {
+    margin-bottom: 160px;
   }
 }
 </style>
