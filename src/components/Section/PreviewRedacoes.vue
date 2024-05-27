@@ -21,7 +21,7 @@ import { type Redacao } from '@/types/Redacao'
 const actualRedacoes = ref<Redacao[]>([])
 
 onMounted(() => {
-  if (props.redacoes.length === 0) {
+  if (props.redacoes.length === 0 && props.loading) {
     resetRedacoes()
   } else {
     actualRedacoes.value = props.redacoes
@@ -43,6 +43,10 @@ const props = defineProps({
   initialQuantity: {
     type: Number,
     default: 4
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -66,6 +70,13 @@ watch(
       return
     }
     actualRedacoes.value = newRedacoes
+  }
+)
+
+watch(
+  () => props.loading,
+  (newLoading) => {
+    actualRedacoes.value = []
   }
 )
 </script>

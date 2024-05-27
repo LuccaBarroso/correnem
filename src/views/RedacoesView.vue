@@ -2,7 +2,12 @@
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Suas Redações" />
   <div class="container">
     <div class="redações">
-      <PreviewRedacoes :redacoes="redacoes" title="Redações Mais Recentes" initialQuantity="12" />
+      <PreviewRedacoes
+        :redacoes="redacoes"
+        title="Redações Mais Recentes"
+        initialQuantity="12"
+        :loading="loading"
+      />
       <Pagination
         :totalPages="totalPages"
         :curPage="curPage"
