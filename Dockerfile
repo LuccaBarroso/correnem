@@ -1,19 +1,28 @@
-# Use a Node.js image to build and run the application
-FROM node:18 as builder
+# Fase de build
+# Usando uma imagem oficial do Node como base
+FROM node:18-alpine as build-stage
+
+# Definindo o diretório de trabalho no container
 WORKDIR /app
 
-# Copy the package.json and install dependencies
+# Copiando os arquivos package.json e package-lock.json
 COPY package*.json ./
-RUN npm install
 
-# Copy the rest of the application code
+# Instalando dependências do projeto
+RUN npm install
+RUN npm install -g serve
+
+# Copiando os arquivos e pastas restantes para o diretório de trabalho
 COPY . .
 
-# Build the application
+# Construindo a aplicação para produção
 RUN npm run build
 
-# Use a lightweight image to serve the application
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Criando a pasta public e movendo os arquivos de imagem para dentro dela
+RUN mkdir /app/dist/public && \
+  mv /app/dist/*.png /app/dist/public/ && \
+  mv /app/dist/*.svg /app/dist/public/ && \
+  mv /app/dist/*.jpg /app/dist/public/ && \
+  mv /app/dist/*.ico /app/dist/public/
+
+CMD ["serve", "-s", "/app/dist", "-l", "80"]
