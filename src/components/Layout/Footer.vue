@@ -32,10 +32,11 @@
         <p>correnem@gmail.com</p>
       </div>
       <div class="menu">
-        <h4>Opções sla</h4>
+        <h4>Menu</h4>
         <ul>
-          <li><a href="#login" class="menu-item-footer">Login</a></li>
-          <li><a href="#register" class="menu-item-footer">Registrar</a></li>
+          <li v-if="!isLogged"><router-link to="/login" class="menu-item-footer">Login</router-link></li>
+          <li v-if="!isLogged"><router-link to="/register" class="menu-item-footer">Registrar</router-link></li>
+          <li v-if="isLogged"><router-link to="/nova-redacao" class="menu-item-footer">Nova Redação</router-link></li>
         </ul>
       </div>
     </div>
@@ -47,7 +48,15 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { RouterLink } from 'vue-router'
+
+const store = useStore()
+
+const isLogged = computed(() => store.state.login.isLogged)
+</script>
 
 <style lang="scss" scoped>
 .footer {
@@ -61,20 +70,19 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+    flex-direction: row; // Direção padrão para telas maiores
+
+    @media (max-width: 768px) { // Media query para dispositivos móveis
+      flex-direction: column; // Muda a direção para coluna em telas menores
+      align-items: flex-start; // Alinha os itens à esquerda
+    }
   }
-  .logo {
-    font-size: 1.5rem;
-  }
-  .contact,
-  .menu {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .copyright {
-    color: var(--white);
-    padding: 10px 0;
-    margin-top: 50px;
+  .logo, .contact, .menu {
+    @media (max-width: 768px) {
+      align-items: flex-start; // Alinha à esquerda para dispositivos móveis
+      text-align: left; // Garante que o texto também esteja alinhado à esquerda
+      margin-bottom: 20px; // Aumenta o espaçamento entre os elementos
+    }
   }
   .menu {
     ul {
@@ -94,3 +102,5 @@
   }
 }
 </style>
+
+
