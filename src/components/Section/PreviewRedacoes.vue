@@ -18,16 +18,6 @@ import { defineProps, ref, onMounted, watch } from 'vue'
 import ItemRedacao from '@/components/Items/Redacao.vue'
 import { type Redacao } from '@/types/Redacao'
 
-const actualRedacoes = ref<Redacao[]>([])
-
-onMounted(() => {
-  if (props.redacoes.length === 0 && props.loading) {
-    resetRedacoes()
-  } else {
-    actualRedacoes.value = props.redacoes
-  }
-})
-
 const props = defineProps({
   redacoes: {
     type: Array<Redacao>,
@@ -41,12 +31,22 @@ const props = defineProps({
     type: String
   },
   initialQuantity: {
-    type: Number,
+    type: String,
     default: 4
   },
   loading: {
     type: Boolean,
-    default: false
+    default: true
+  }
+})
+
+const actualRedacoes = ref<Redacao[]>([])
+
+onMounted(() => {
+  if (props.redacoes.length === 0 && props.loading) {
+    resetRedacoes()
+  } else {
+    actualRedacoes.value = props.redacoes
   }
 })
 
@@ -60,23 +60,28 @@ function resetRedacoes() {
       finalScore: 0
     })
   }
+
+  setTimeout(() => {
+    console.log('Timeout')
+    console.log(actualRedacoes.value)
+    if (!props.loading.value && actualRedacoes.value[0].id === 0) {
+      actualRedacoes.value = []
+    }
+  }, 500)
 }
 
 watch(
   () => props.redacoes,
   (newRedacoes) => {
     if (newRedacoes.length === 0) {
-      resetRedacoes()
+      if (props.loading) {
+        resetRedacoes()
+      } else {
+        actualRedacoes.value = []
+      }
       return
     }
     actualRedacoes.value = newRedacoes
-  }
-)
-
-watch(
-  () => props.loading,
-  (newLoading) => {
-    actualRedacoes.value = []
   }
 )
 </script>

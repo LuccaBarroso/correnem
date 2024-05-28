@@ -2,11 +2,12 @@
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Suas Redações" />
   <div class="container">
     <div class="redações">
+      {{ loading }}
       <PreviewRedacoes
         :redacoes="redacoes"
         title="Redações Mais Recentes"
-        initialQuantity=12
-        :loading="loading"
+        initialQuantity="12"
+        :loading="loading.value"
       />
       <Pagination
         :totalPages="totalPages"
@@ -42,11 +43,9 @@ function getPage(page: number) {
   store
     .dispatch('redacao/getRedacoes', { page: curPage.value, limit: 12 })
     .then((res) => {
-      setTimeout(() => {
-        redacoes.value = res.data.pagina.content
-        totalPages.value = res.data.pagina.totalPages
-        loading.value = false
-      }, 1000)
+      redacoes.value = res.data.pagina.content
+      totalPages.value = res.data.pagina.totalPages
+      loading.value = false
     })
     .catch((err) => {
       loading.value = false
