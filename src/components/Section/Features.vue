@@ -13,25 +13,25 @@
           <ItemsFeature
             title="Login Seguro e Intuitivo"
             content="Garantimos a segurança dos dados dos professores com um sistema de login robusto, além de oferecer uma interface intuitiva para facilitar a navegação."
-            img="\public\cadeado.svg"
+            img="/cadeado.svg"
             alt="Login Seguro e Intuitivo"
           />
           <ItemsFeature
             title="Dashboard de Gerenciamento"
             content="Os professores têm acesso a um dashboard completo, onde podem adicionar novas redações, visualizar históricos e acessar as correções mais recentes de forma rápida e eficiente."
-            img="\public\blocos.svg"
+            img="/blocos.svg"
             alt="Dashboard de Gerenciamento"
           />
           <ItemsFeature
             title="Correção Automatizada com IA"
             content="Utilizando inteligência artificial, destacamos trechos das redações que necessitam de correção e oferecemos sugestões para aprimoramento. O professor tem autonomia de editar as correções conforme necessário."
-            img="\public\notas.svg"
+            img="/notas.svg"
             alt="Correção Automatizada com IA"
           />
           <ItemsFeature
             title="Avaliação Baseada em Competências"
             content="Avalia as redações com base em competências predefinidas, fornecendo ao professor uma visão clara do desempenho dos alunos em áreas específicas."
-            img="\public\notas2.png"
+            img="/notas2.png"
             alt="Avaliação Baseada em Competências"
           />
         </div>

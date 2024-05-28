@@ -10,15 +10,15 @@
         >
           <div class="icones-primeira">
             <div class="item">
-              <img src="/public/notas.svg" alt="Notas" />
+              <img src="/notas.svg" alt="Notas" />
               <h3>Texto</h3>
             </div>
             <div class="item">
-              <img src="/public/camera.svg" alt="Camera" />
+              <img src="/camera.svg" alt="Camera" />
               <h3>Escanear</h3>
             </div>
             <div class="item">
-              <img src="/public/galeria.svg" alt="Galeria" />
+              <img src="/galeria.svg" alt="Galeria" />
               <h3>Foto</h3>
             </div>
             <svg

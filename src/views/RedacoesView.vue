@@ -5,7 +5,7 @@
       <PreviewRedacoes
         :redacoes="redacoes"
         title="Redações Mais Recentes"
-        initialQuantity="12"
+        initialQuantity=12
         :loading="loading"
       />
       <Pagination
