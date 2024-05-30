@@ -2,7 +2,6 @@
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Suas Redações" />
   <div class="container main-page-container">
     <div class="redações">
-      {{ loading }}
       <PreviewRedacoes
         :redacoes="redacoes"
         title="Redações Mais Recentes"
