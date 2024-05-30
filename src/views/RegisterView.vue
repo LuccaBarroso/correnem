@@ -1,5 +1,5 @@
 <template>
-  <div class="register-holder container">
+  <div class="register-holder container main-page-container">
     <div class="generic-card register-card">
       <BasicLoading v-if="loading" style="margin-inline: auto; margin-block: 60px" />
       <div v-else>

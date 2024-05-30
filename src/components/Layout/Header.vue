@@ -12,7 +12,7 @@
             <span></span>
             <span></span>
           </div>
-          <div :class="['menu', { active: showMenu }]">
+          <div :class="['menu', { active: showMenu }]" @click="menuClick">
             <!-- menu sem estar logado -->
             <RouterLink to="/login" class="menu-item" v-if="!isLogged"> Logar </RouterLink>
             <RouterLink to="/register" class="menu-item btn-padrao" v-if="!isLogged">
@@ -59,6 +59,12 @@ const store = useStore()
 const isLogged = computed(() => store.state.login.isLogged)
 
 const showMenu = ref(false)
+
+function menuClick(e: Event) {
+  if ((e.target as HTMLElement).tagName === 'A') {
+    showMenu.value = false
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -109,7 +115,7 @@ const showMenu = ref(false)
     transition: all 0.4s ease-in-out;
     left: 0;
     top: 0;
-    margin-top: 64px;
+    margin-top: 77px;
     width: 100%;
     background-color: var(--white);
     display: flex;

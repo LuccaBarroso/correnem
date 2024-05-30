@@ -1,6 +1,6 @@
 <template>
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Perfil" />
-  <div class="container">
+  <div class="container main-page-container">
     <p v-if="userName">
       Olá, <strong>{{ userName }}</strong> este é o seu perfil. Aqui você pode alterar suas
       informações.

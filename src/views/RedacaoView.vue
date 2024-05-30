@@ -1,6 +1,6 @@
 <template>
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Revisando Correção" />
-  <div class="container">
+  <div class="container main-page-container" v-if="redacao.redacao">
     <div class="grid-notas">
       <CardNotaCompetencia
         title="Competência 1"
@@ -21,21 +21,29 @@
         tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
         :nota="redacao.redacao.criteriaScore3"
         maxNota="200"
-        :delay="500"
+        :delay="450"
       />
       <CardNotaCompetencia
         title="Competência 4"
         tooltip="Conhecimento dos mecanismos linguísticos necessários para a construção da argumentação."
         :nota="redacao.redacao.criteriaScore4"
         maxNota="200"
-        :delay="700"
+        :delay="550"
       />
       <CardNotaCompetencia
         title="Competência 5"
         tooltip="Respeito aos direitos humanos."
         :nota="redacao.redacao.criteriaScore5"
         maxNota="200"
-        :delay="800"
+        :delay="600"
+      />
+      <CardNotaCompetencia
+        title="Nota Final"
+        tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
+        :nota="redacao.redacao.finalScore"
+        maxNota="1000"
+        :delay="625"
+        destaque
       />
     </div>
 
@@ -52,24 +60,18 @@
       {{ redacao.redacao.text }}
     </p>
     <h2>Feedback:</h2>
-    <p>
-      {{ redacao.redacao.comments }}
-    </p>
-    <div class="nota-final mb-5">
-      <CardNotaCompetencia
-        title="Nota Final"
-        tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
-        :nota="redacao.redacao.finalScore"
-        maxNota="1000"
-        :delay="700"
-      />
-    </div>
+    <div
+      style="margin-bottom: 30px"
+      v-html="marked(redacao.redacao.comments)"
+      v-if="redacao.redacao.comments"
+    ></div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import CardNotaCompetencia from '@/components/Items/CardNotaCompetencia.vue'
 import LayoutBreadcrumb from '@/components/Layout/Breadcrumb.vue'
+import { marked } from 'marked'
 import { type Breadcrumb } from '@/types/Breadcrumb'
 import { computed } from 'vue'
 import { useStore } from 'vuex'

@@ -62,8 +62,6 @@ function resetRedacoes() {
   }
 
   setTimeout(() => {
-    console.log('Timeout')
-    console.log(actualRedacoes.value)
     if (!props.loading.value && actualRedacoes.value[0].id === 0) {
       actualRedacoes.value = []
     }

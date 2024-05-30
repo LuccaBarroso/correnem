@@ -1,5 +1,5 @@
 <template>
-  <div class="login-holder container">
+  <div class="login-holder container main-page-container">
     <div class="generic-card login-card">
       <BasicLoading v-if="loading" style="margin-inline: auto; margin-block: 60px" />
       <div v-else>

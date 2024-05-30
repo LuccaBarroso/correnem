@@ -1,5 +1,11 @@
 <template>
-  <div :class="['item generic-card card-nota-competencia', { active: active }]">
+  <div
+    :class="[
+      'item generic-card card-nota-competencia',
+      { active: active },
+      { destaque: props.destaque }
+    ]"
+  >
     <div class="topo">
       <h3>
         {{ props.title }}
@@ -59,6 +65,10 @@ const props = defineProps({
   infinity: {
     type: Boolean,
     default: false
+  },
+  destaque: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -95,6 +105,24 @@ const incrementValue = () => {
   &.active {
     scale: 1;
     opacity: 1;
+  }
+  &.destaque {
+    background-color: #044884;
+    border-radius: 5px;
+    color: var(--white);
+    &::after {
+      border-color: var(--white);
+    }
+    h3 {
+      font-size: 2rem;
+    }
+    svg {
+      display: none;
+    }
+    h3,
+    p {
+      color: var(--white);
+    }
   }
 }
 

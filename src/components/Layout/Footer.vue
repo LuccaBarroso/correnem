@@ -34,9 +34,15 @@
       <div class="menu">
         <h4>Menu</h4>
         <ul>
-          <li v-if="!isLogged"><router-link to="/login" class="menu-item-footer">Login</router-link></li>
-          <li v-if="!isLogged"><router-link to="/register" class="menu-item-footer">Registrar</router-link></li>
-          <li v-if="isLogged"><router-link to="/nova-redacao" class="menu-item-footer">Nova Redação</router-link></li>
+          <li v-if="!isLogged">
+            <router-link to="/login" class="menu-item-footer">Login</router-link>
+          </li>
+          <li v-if="!isLogged">
+            <router-link to="/register" class="menu-item-footer">Registrar</router-link>
+          </li>
+          <li v-if="isLogged">
+            <router-link to="/nova-redacao" class="menu-item-footer">Nova Redação</router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -72,12 +78,15 @@ const isLogged = computed(() => store.state.login.isLogged)
     margin: 0 auto;
     flex-direction: row; // Direção padrão para telas maiores
 
-    @media (max-width: 768px) { // Media query para dispositivos móveis
+    @media (max-width: 768px) {
+      // Media query para dispositivos móveis
       flex-direction: column; // Muda a direção para coluna em telas menores
       align-items: flex-start; // Alinha os itens à esquerda
     }
   }
-  .logo, .contact, .menu {
+  .logo,
+  .contact,
+  .menu {
     @media (max-width: 768px) {
       align-items: flex-start; // Alinha à esquerda para dispositivos móveis
       text-align: left; // Garante que o texto também esteja alinhado à esquerda
@@ -102,5 +111,3 @@ const isLogged = computed(() => store.state.login.isLogged)
   }
 }
 </style>
-
-
