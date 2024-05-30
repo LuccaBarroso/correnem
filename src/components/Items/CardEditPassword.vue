@@ -14,6 +14,7 @@
               placeholder="Sua senha atual"
               v-model="oldPassword"
               class="w-100"
+              autocomplete="current-password"
             />
           </div>
           <div class="error-input" v-if="oldPasswordError">{{ oldPasswordError }}</div>
@@ -27,6 +28,7 @@
               placeholder="Sua nova senha"
               v-model="newPassword"
               class="w-100"
+              autocomplete="new-password"
             />
           </div>
           <div class="error-input" v-if="newPasswordError">{{ newPasswordError }}</div>
@@ -40,6 +42,7 @@
               placeholder="Confirme sua nova senha"
               v-model="confirmNewPassword"
               class="w-100"
+              autocomplete="off"
             />
           </div>
           <div class="error-input" v-if="confirmNewPasswordError">
