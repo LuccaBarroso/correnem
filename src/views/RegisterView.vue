@@ -32,7 +32,7 @@
             <div class="error-input" v-if="passwordError">{{ passwordError }}</div>
           </div>
           <div class="input-group">
-            <label for="confirmpassword">Senha:</label>
+            <label for="confirmpassword">Confirmar senha:</label>
             <div class="input-holder" :class="{ error: confirmPasswordError }">
               <input
                 type="password"
