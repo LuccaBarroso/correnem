@@ -35,7 +35,7 @@
         <h4>Menu</h4>
         <ul>
           <li v-if="!isLogged">
-            <router-link to="/login" class="menu-item-footer">Login</router-link>
+            <router-link to="/login" class="menu-item-footer">Acessar</router-link>
           </li>
           <li v-if="!isLogged">
             <router-link to="/register" class="menu-item-footer">Registrar</router-link>

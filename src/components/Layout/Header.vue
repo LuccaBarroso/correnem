@@ -14,7 +14,7 @@
           </div>
           <div :class="['menu', { active: showMenu }]" @click="menuClick">
             <!-- menu sem estar logado -->
-            <RouterLink to="/login" class="menu-item" v-if="!isLogged"> Logar </RouterLink>
+            <RouterLink to="/login" class="menu-item" v-if="!isLogged"> Acessar </RouterLink>
             <RouterLink to="/register" class="menu-item btn-padrao" v-if="!isLogged">
               Registrar
             </RouterLink>
