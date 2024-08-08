@@ -17,4 +17,4 @@ RUN npm install -g serve
 # Construindo a aplicação para produção
 RUN npm run build
 
-CMD ["serve", "-s", "/app/dist", "-l", "80"]
+CMD ["serve", "-s", "/app/dist", "-l", "5000"]
