@@ -35,7 +35,17 @@
       </div>
     </div>
     <div class="nota">
-      <p>{{ initialVal }}</p>
+      <p v-if="!isEditing">{{ initialVal }}</p>
+      <input
+        v-else
+        type="number"
+        v-model="curNewVal"
+        min="0"
+        max="200"
+        step="1"
+        class="input-nota"
+        @change="valueChanged"
+      />
       <div class="barra">
         <p>/{{ props.maxNota }}</p>
       </div>
@@ -44,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, defineEmits, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   title: {
@@ -69,15 +79,22 @@ const props = defineProps({
   destaque: {
     type: Boolean,
     default: false
+  },
+  isEditing: {
+    type: Boolean
   }
 })
 
+const emit = defineEmits('change')
+
 const active = ref<boolean>(false)
 const initialVal = ref<number>(0)
+const curNewVal = ref<number>(0)
 
 setTimeout(() => {
   active.value = true
   incrementValue()
+  curNewVal.value = props.nota
 }, props.delay)
 
 const incrementValue = () => {
@@ -95,6 +112,31 @@ const incrementValue = () => {
     }
   }, 10)
 }
+
+const valueChanged = () => {
+  if (curNewVal.value > props.maxNota) {
+    curNewVal.value = props.maxNota
+  }
+
+  if (curNewVal.value < 0) {
+    curNewVal.value = 0
+  }
+
+  emit('change', curNewVal.value)
+}
+
+function reset() {
+  curNewVal.value = props.nota
+  initialVal.value = props.nota
+}
+
+onMounted(() => {
+  window.addEventListener('resetCard', reset)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resetCard', reset)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -195,6 +237,20 @@ const incrementValue = () => {
       margin-bottom: 0;
       margin-top: 40px;
     }
+  }
+}
+
+.input-nota {
+  width: 110px;
+  height: 50px;
+  font-size: 30px;
+  text-align: center;
+  font-family: 'Plein-Bold';
+  color: var(--blue);
+  border: 2px solid var(--blue);
+  border-radius: 5px;
+  &:focus {
+    outline: none;
   }
 }
 </style>

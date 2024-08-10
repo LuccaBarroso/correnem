@@ -10,7 +10,7 @@ import Loading from '@/components/Basic/Loading.vue'
 
 <style scoped lang="scss">
 .holder {
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
