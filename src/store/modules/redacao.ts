@@ -100,67 +100,56 @@ const actions = {
     })
   },
   putRedacao({ commit }: { commit: any }, data: any) {
-    //   return new Promise((resolve, reject) => {
-    //     fetch(import.meta.env.VITE_APP_API_URL + '/correnem-redacao-ms/redacao/' + data.id, {
-    //       method: 'PUT',
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
-    //       credentials: 'include',
-    //       body: JSON.stringify(data)
-    //     })
-    //       .then((response) => {
-    //         return { data: response.json(), status: response.status }
-    //       })
-    //       .then(async (data) => {
-    //         const responseData = await data.data
-    //         if (data.status === 200) {
-    //           commit('setRedacaoAtual', responseData)
-    //           resolve({ error: false, data: responseData })
-    //         } else {
-    //           resolve({ error: true, message: responseData?.message })
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         reject(error)
-    //       })
-    //   })
-    // }
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ error: false, message: 'Redação atualizada com sucesso' })
-      }, 2000)
-    })
+      return new Promise((resolve, reject) => {
+        fetch(import.meta.env.VITE_APP_API_URL + '/correnem-redacao-ms/redacao/' + data.redacao.id, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify(data)
+        })
+          .then((response) => {
+            return { data: response.json(), status: response.status }
+          })
+          .then(async (data) => {
+            const responseData = await data.data
+            if (data.status === 200) {
+              commit('setRedacaoAtual', responseData)
+              resolve({ error: false, data: responseData })
+            } else {
+              resolve({ error: true, message: responseData?.message })
+            }
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
   },
   finishRedacao({ commit }: { commit: any }, { id }: { id: string }) {
-    // return new Promise((resolve, reject) => {
-    //   fetch(import.meta.env.VITE_APP_API_URL + '/correnem-redacao-ms/redacao/finish/' + id, {
-    //     method: 'PUT',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     credentials: 'include'
-    //   })
-    //     .then((response) => {
-    //       return { data: response.json(), status: response.status }
-    //     })
-    //     .then(async (data) => {
-    //       const responseData = await data.data
-    //       if (data.status === 200) {
-    //         commit('setRedacaoAtual', responseData)
-    //         resolve({ error: false, message: 'Redação finalizada com sucesso' })
-    //       } else {
-    //         resolve({ error: true, message: responseData?.message })
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       reject(error)
-    //     })
-    // })
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ error: false, message: 'Redação finalizada com sucesso' })
-      }, 2000)
+      fetch(import.meta.env.VITE_APP_API_URL + '/correnem-redacao-ms/redacao/finish/' + id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
+        .then((response) => {
+          return { data: response.json(), status: response.status }
+        })
+        .then(async (data) => {
+          const responseData = await data.data
+          if (data.status === 200) {
+            commit('setRedacaoAtual', responseData)
+            resolve({ error: false, message: 'Redação finalizada com sucesso' })
+          } else {
+            resolve({ error: true, message: responseData?.message })
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   }
 }
