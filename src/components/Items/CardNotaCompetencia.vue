@@ -42,7 +42,7 @@
         v-model="curNewVal"
         min="0"
         max="200"
-        step="1"
+        step="40"
         class="input-nota"
         @change="valueChanged"
       />
