@@ -21,6 +21,7 @@ const actions = {
         body: JSON.stringify({ titulo: title, texto: text, tema: theme })
       })
         .then((response) => {
+          console.log('response', response)
           return { data: response.json(), status: response.status }
         })
         .then(async (data) => {
@@ -62,6 +63,7 @@ const actions = {
         })
         .then(async (data) => {
           const responseData = await data.data
+          console.log('responseData', responseData)
           if (data.status === 200) {
             resolve({ error: false, data: responseData })
           } else {
@@ -88,7 +90,7 @@ const actions = {
         .then(async (data) => {
           const responseData = await data.data
           if (data.status === 200) {
-            commit('setRedacaoAtual', responseData)
+            commit('setRedacaoAtual', responseData.redacao)
             resolve({ error: false, data: responseData })
           } else {
             resolve({ error: true, message: responseData?.message })
@@ -100,31 +102,31 @@ const actions = {
     })
   },
   putRedacao({ commit }: { commit: any }, data: any) {
-      return new Promise((resolve, reject) => {
-        fetch(import.meta.env.VITE_APP_API_URL + '/correnem-redacao-ms/redacao/' + data.redacao.id, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
-          body: JSON.stringify(data)
-        })
-          .then((response) => {
-            return { data: response.json(), status: response.status }
-          })
-          .then(async (data) => {
-            const responseData = await data.data
-            if (data.status === 200) {
-              commit('setRedacaoAtual', responseData)
-              resolve({ error: false, data: responseData })
-            } else {
-              resolve({ error: true, message: responseData?.message })
-            }
-          })
-          .catch((error) => {
-            reject(error)
-          })
+    return new Promise((resolve, reject) => {
+      fetch(import.meta.env.VITE_APP_API_URL + '/correnem-redacao-ms/redacao/' + data.redacao.id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
       })
+        .then((response) => {
+          return { data: response.json(), status: response.status }
+        })
+        .then(async (data) => {
+          const responseData = await data.data
+          if (data.status === 200) {
+            commit('setRedacaoAtual', responseData.redacao)
+            resolve({ error: false, data: responseData })
+          } else {
+            resolve({ error: true, message: responseData?.message })
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
   },
   finishRedacao({ commit }: { commit: any }, { id }: { id: string }) {
     return new Promise((resolve, reject) => {

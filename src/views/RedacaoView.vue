@@ -1,12 +1,15 @@
 <template>
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Revisando Correção" />
-  <div class="container main-page-container" v-if="curRedacao.redacao">
+  <div
+    class="container main-page-container"
+    v-if="curRedacao && Object.keys(curRedacao).length > 0"
+  >
     <div class="grid-notas">
       <CardNotaCompetencia
         :isEditing="isEditing"
         title="Competência 1"
         tooltip="Domínio da escrita formal da língua portuguesa."
-        :nota="curRedacao.redacao.criteriaScore1"
+        :nota="curRedacao.criteriaScore1"
         maxNota="200"
         :delay="100"
         @change="changeNota(1, $event)"
@@ -15,7 +18,7 @@
         :isEditing="isEditing"
         title="Competência 2"
         tooltip="Compreender o tema e não fugir do que é proposto."
-        :nota="parseInt(curRedacao.redacao.criteriaScore2)"
+        :nota="parseInt(curRedacao.criteriaScore2)"
         maxNota="200"
         :delay="300"
         @change="changeNota(2, $event)"
@@ -24,7 +27,7 @@
         :isEditing="isEditing"
         title="Competência 3"
         tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
-        :nota="parseInt(curRedacao.redacao.criteriaScore3)"
+        :nota="parseInt(curRedacao.criteriaScore3)"
         maxNota="200"
         :delay="450"
         @change="changeNota(3, $event)"
@@ -33,7 +36,7 @@
         :isEditing="isEditing"
         title="Competência 4"
         tooltip="Conhecimento dos mecanismos linguísticos necessários para a construção da argumentação."
-        :nota="parseInt(curRedacao.redacao.criteriaScore4)"
+        :nota="parseInt(curRedacao.criteriaScore4)"
         maxNota="200"
         :delay="550"
         @change="changeNota(4, $event)"
@@ -42,7 +45,7 @@
         :isEditing="isEditing"
         title="Competência 5"
         tooltip="Respeito aos direitos humanos."
-        :nota="parseInt(curRedacao.redacao.criteriaScore5)"
+        :nota="parseInt(curRedacao.criteriaScore5)"
         maxNota="200"
         :delay="600"
         @change="changeNota(5, $event)"
@@ -50,7 +53,7 @@
       <CardNotaCompetencia
         title="Nota Final"
         tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
-        :nota="curRedacao.redacao.finalScore"
+        :nota="curRedacao.finalScore"
         maxNota="1000"
         :delay="625"
         destaque
@@ -59,25 +62,25 @@
 
     <h2>Tema da redação</h2>
     <p>
-      {{ curRedacao.redacao.prompt }}
+      {{ curRedacao.prompt }}
     </p>
     <h2>Titulo da redação</h2>
     <p>
-      {{ curRedacao.redacao.title }}
+      {{ curRedacao.title }}
     </p>
     <h2>Redação:</h2>
     <p>
-      {{ curRedacao.redacao.text }}
+      {{ curRedacao.text }}
     </p>
     <h2>Feedback:</h2>
     <div
       style="margin-bottom: 30px"
-      v-html="marked(curRedacao.redacao.comments)"
-      v-if="curRedacao.redacao.comments && !isEditing"
+      v-html="marked(curRedacao.comments)"
+      v-if="curRedacao.comments && !isEditing"
     ></div>
     <div v-else>
       <textarea
-        v-model="curRedacao.redacao.comments"
+        v-model="curRedacao.comments"
         class="input-textarea"
         placeholder="Digite aqui o feedback da redação"
       ></textarea>
@@ -128,9 +131,7 @@
           />
         </svg>
       </button>
-      <button class="btn-padrao" v-if="!curRedacao.redacao.isFinished" @click="finalizar">
-        Finalizar
-      </button>
+      <button class="btn-padrao" v-if="!curRedacao.finished" @click="finalizar">Finalizar</button>
     </div>
 
     <LoadingOverlay v-if="isLoading" />
@@ -143,10 +144,9 @@ import CardNotaCompetencia from '@/components/Items/CardNotaCompetencia.vue'
 import LayoutBreadcrumb from '@/components/Layout/Breadcrumb.vue'
 import { marked } from 'marked'
 import { type Breadcrumb } from '@/types/Breadcrumb'
-import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { ref } from 'vue'
+import { reactive, ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -157,16 +157,40 @@ const route = useRoute()
 let isEditing = ref(false)
 let isLoading = ref(false)
 
-let originalRedacao = null
-let curRedacao = null
+let originalRedacao = ref(null)
+let curRedacao = reactive({})
 
 const breadcrumbs: Breadcrumb[] = []
-const redacao = computed(() => {
-  curRedacao = store.state.redacao.redacaoAtual
-  return store.state.redacao.redacaoAtual
+const redacao = computed(() => store.state.redacao.redacaoAtual)
+
+watch(
+  redacao,
+  (newVal) => {
+    if (newVal && newVal.redacao) {
+      Object.assign(curRedacao, newVal.redacao) // Use Object.assign to update reactive object
+      originalRedacao.value = { ...curRedacao }
+    }
+  },
+  { immediate: true }
+)
+
+onMounted(() => {
+  initialPageLoad()
 })
-if (!redacao.value || redacao.value.id !== route.params.id) {
-  store.dispatch('redacao/getRedacaoById', { id: route.params.id })
+
+async function initialPageLoad() {
+  if (!redacao.value || !redacao.value.redacao || redacao.value.redacao.id !== route.params.id) {
+    try {
+      await store.dispatch('redacao/getRedacaoById', { id: route.params.id })
+    } catch (error) {
+      console.error('Error fetching redacao:', error)
+    }
+  }
+
+  if (redacao.value) {
+    curRedacao = Object.assign(curRedacao, redacao.value)
+    originalRedacao = { ...curRedacao }
+  }
 }
 
 function iniciarEdicao() {
@@ -175,7 +199,7 @@ function iniciarEdicao() {
 }
 
 function cancelarEdicao() {
-  curRedacao.redacao = originalRedacao
+  Object.assign(curRedacao, originalRedacao)
   isEditing.value = false
   const event = new Event('resetCard')
   window.dispatchEvent(event)
@@ -185,10 +209,10 @@ function salvarEdicao() {
   isLoading.value = true
 
   store
-    .dispatch('redacao/putRedacao', { redacao: curRedacao.redacao })
+    .dispatch('redacao/putRedacao', { redacao: curRedacao })
     .then((res) => {
       isLoading.value = false
-      originalRedacao = { ...curRedacao.redacao }
+      originalRedacao = { ...curRedacao }
       cancelarEdicao()
     })
     .catch(() => {
@@ -198,7 +222,9 @@ function salvarEdicao() {
 
 function changeNota(index: number, event: event) {
   if (event && event.target) {
-    curRedacao.redacao[`criteriaScore${index}`] = parseInt(event.target.value)
+    let temp = { ...curRedacao }
+    temp[`criteriaScore${index}`] = parseInt(event.target.value)
+    Object.assign(curRedacao, temp)
   }
 }
 
