@@ -21,7 +21,6 @@ const actions = {
         body: JSON.stringify({ titulo: title, texto: text, tema: theme })
       })
         .then((response) => {
-          console.log('response', response)
           return { data: response.json(), status: response.status }
         })
         .then(async (data) => {
@@ -63,7 +62,6 @@ const actions = {
         })
         .then(async (data) => {
           const responseData = await data.data
-          console.log('responseData', responseData)
           if (data.status === 200) {
             resolve({ error: false, data: responseData })
           } else {

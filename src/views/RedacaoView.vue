@@ -239,7 +239,6 @@ async function finalizar() {
     })
     .catch((err) => {
       isLoading.value = false
-      console.log(err)
     })
 }
 </script>
