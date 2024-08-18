@@ -69,9 +69,7 @@
       {{ curRedacao.title }}
     </p>
     <h2>Redação:</h2>
-    <p>
-      {{ curRedacao.text }}
-    </p>
+    <p v-html="formatText(curRedacao.text)"></p>
     <h2>Feedback:</h2>
     <div
       style="margin-bottom: 30px"
@@ -187,6 +185,7 @@ async function initialPageLoad() {
     }
   }
 
+  console.log('redacao', redacao.value)
   if (redacao.value) {
     curRedacao = Object.assign(curRedacao, redacao.value)
     originalRedacao = { ...curRedacao }
@@ -218,6 +217,10 @@ function salvarEdicao() {
     .catch(() => {
       isLoading.value = false
     })
+}
+
+function formatText(text: string): string {
+  return text ? text.replace(/\n/g, '<br>') : ''
 }
 
 function changeNota(index: number, value: number) {
