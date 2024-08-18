@@ -89,12 +89,14 @@ onMounted(() => {
     justify-content: space-between;
   }
   .grid-competencias {
+    margin-top: 20px;
     width: 100%;
     @media (min-width: 768px) {
       padding-left: 20px;
+      margin-top: 0;
     }
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     height: fit-content;
     gap: 1rem;
   }
