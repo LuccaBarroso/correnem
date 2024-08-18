@@ -6,8 +6,10 @@ import RegisterView from '../views/RegisterView.vue'
 import RedacoesView from '../views/RedacoesView.vue'
 import NovaRedacaoView from '../views/nova-redacao/NovaRedacaoView.vue'
 import NovaRedacaoTextoView from '../views/nova-redacao/NovaRedacaoTextoView.vue'
+import RedacaoCorrigidaView from '../views/RedacaoCorrigidaView.vue'
 import perfil from '../views/PerfilView.vue'
 import RedacaoView from '../views/RedacaoView.vue'
+import store from '../store'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,29 +32,59 @@ const router = createRouter({
     {
       path: '/redacoes',
       name: 'Redacoes',
-      component: RedacoesView
+      component: RedacoesView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/nova-redacao',
       name: 'NovaRedacao',
-      component: NovaRedacaoView
+      component: NovaRedacaoView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/nova-redacao/texto',
       name: 'NovaRedacaoTexto',
-      component: NovaRedacaoTextoView
+      component: NovaRedacaoTextoView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/perfil',
       name: 'Perfil',
-      component: perfil
+      component: perfil,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/redacao/corrigida/:id',
+      name: 'RedacaoCorrigida',
+      component: RedacaoCorrigidaView
     },
     {
       path: '/redacao/:id',
       name: 'Redacao',
-      component: RedacaoView
+      component: RedacaoView,
+      meta: { requiresAuth: true }
     }
   ]
+})
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    try {
+      let isLogged = await store.dispatch('login/firstAccessCheck')
+      if (!isLogged) {
+        next({
+          name: 'Login',
+          query: { redirect: to.fullPath }
+        })
+      } else {
+        next()
+      }
+    } catch (error) {
+      console.error('Error during navigation guard:', error)
+      next({ name: 'Login', query: { redirect: to.fullPath } })
+    }
+  }
+  next()
 })
 
 export default router

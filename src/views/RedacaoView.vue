@@ -224,6 +224,13 @@ function changeNota(index: number, event: event) {
   if (event && event.target) {
     let temp = { ...curRedacao }
     temp[`criteriaScore${index}`] = parseInt(event.target.value)
+    // recalcula a nota final
+    temp.finalScore =
+      curRedacao.criteriaScore1 +
+      curRedacao.criteriaScore2 +
+      curRedacao.criteriaScore3 +
+      curRedacao.criteriaScore4 +
+      curRedacao.criteriaScore5
     Object.assign(curRedacao, temp)
   }
 }

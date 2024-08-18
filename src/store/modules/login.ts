@@ -45,6 +45,8 @@ const actions = {
         credentials: 'include'
       })
         .then((response) => {
+          console.log('checando se o usuário está logado')
+          console.log(response)
           return { data: response.json(), status: response.status }
         })
         .then((data) => {
@@ -56,6 +58,9 @@ const actions = {
           if (data.status === 401) {
             commit('setLogged', false)
             commit('setLoggedTime', null)
+            if (window.location.pathname.includes('/redacao/corrigida')) {
+              return resolve(data)
+            }
             reject(data)
           }
         })
