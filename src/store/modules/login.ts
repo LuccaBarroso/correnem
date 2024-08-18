@@ -45,8 +45,6 @@ const actions = {
         credentials: 'include'
       })
         .then((response) => {
-          console.log('checando se o usuário está logado')
-          console.log(response)
           return { data: response.json(), status: response.status }
         })
         .then((data) => {

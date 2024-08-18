@@ -12,7 +12,7 @@
         :nota="curRedacao.criteriaScore1"
         maxNota="200"
         :delay="100"
-        @change="changeNota(1, $event)"
+        @change="(value) => changeNota(1, value)"
       />
       <CardNotaCompetencia
         :isEditing="isEditing"
@@ -21,7 +21,7 @@
         :nota="parseInt(curRedacao.criteriaScore2)"
         maxNota="200"
         :delay="300"
-        @change="changeNota(2, $event)"
+        @change="(value) => changeNota(2, value)"
       />
       <CardNotaCompetencia
         :isEditing="isEditing"
@@ -30,7 +30,7 @@
         :nota="parseInt(curRedacao.criteriaScore3)"
         maxNota="200"
         :delay="450"
-        @change="changeNota(3, $event)"
+        @change="(value) => changeNota(3, value)"
       />
       <CardNotaCompetencia
         :isEditing="isEditing"
@@ -39,7 +39,7 @@
         :nota="parseInt(curRedacao.criteriaScore4)"
         maxNota="200"
         :delay="550"
-        @change="changeNota(4, $event)"
+        @change="(value) => changeNota(4, value)"
       />
       <CardNotaCompetencia
         :isEditing="isEditing"
@@ -48,7 +48,7 @@
         :nota="parseInt(curRedacao.criteriaScore5)"
         maxNota="200"
         :delay="600"
-        @change="changeNota(5, $event)"
+        @change="(value) => changeNota(5, value)"
       />
       <CardNotaCompetencia
         title="Nota Final"
@@ -220,17 +220,18 @@ function salvarEdicao() {
     })
 }
 
-function changeNota(index: number, event: event) {
-  if (event && event.target) {
+function changeNota(index: number, value: number) {
+  if (index && value) {
     let temp = { ...curRedacao }
-    temp[`criteriaScore${index}`] = parseInt(event.target.value)
+    temp[`criteriaScore${index}`] = parseInt(value)
     // recalcula a nota final
-    temp.finalScore =
-      curRedacao.criteriaScore1 +
-      curRedacao.criteriaScore2 +
-      curRedacao.criteriaScore3 +
-      curRedacao.criteriaScore4 +
-      curRedacao.criteriaScore5
+    let total =
+      (parseInt(temp.criteriaScore1) || 0) +
+      (parseInt(temp.criteriaScore2) || 0) +
+      (parseInt(temp.criteriaScore3) || 0) +
+      (parseInt(temp.criteriaScore4) || 0) +
+      (parseInt(temp.criteriaScore5) || 0)
+    temp.finalScore = total
     Object.assign(curRedacao, temp)
   }
 }

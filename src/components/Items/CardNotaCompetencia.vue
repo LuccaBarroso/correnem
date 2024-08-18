@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, defineEmits, onMounted, onUnmounted } from 'vue'
+import { defineProps, ref, defineEmits, onMounted, onUnmounted, watch } from 'vue'
 
 const props = defineProps({
   title: {
@@ -85,7 +85,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits('change')
+const emit = defineEmits(['change'])
 
 const active = ref<boolean>(false)
 const initialVal = ref<number>(0)
@@ -96,6 +96,14 @@ setTimeout(() => {
   incrementValue()
   curNewVal.value = props.nota
 }, props.delay)
+
+watch(
+  () => props.nota,
+  () => {
+    initialVal.value = props.nota
+    curNewVal.value = props.nota
+  }
+)
 
 const incrementValue = () => {
   const interval = setInterval(() => {

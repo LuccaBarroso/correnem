@@ -72,16 +72,16 @@ router.beforeEach(async (to, from, next) => {
     try {
       let isLogged = await store.dispatch('login/firstAccessCheck')
       if (!isLogged) {
-        next({
+        return next({
           name: 'Login',
           query: { redirect: to.fullPath }
         })
       } else {
-        next()
+        return next()
       }
     } catch (error) {
       console.error('Error during navigation guard:', error)
-      next({ name: 'Login', query: { redirect: to.fullPath } })
+      return next({ name: 'Login', query: { redirect: to.fullPath } })
     }
   }
   next()
