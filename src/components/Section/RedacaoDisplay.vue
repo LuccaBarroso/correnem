@@ -34,6 +34,7 @@ function formatText(text: string): string {
   border-radius: 1px;
   padding: 0;
   max-width: 65ch;
+  font-size: 1.2rem;
   overflow: hidden;
   @media (min-width: 1028px) {
     min-width: 65ch;
@@ -41,32 +42,33 @@ function formatText(text: string): string {
   .paragraphs {
     padding: 1rem;
     background-image: linear-gradient(
-      transparent 47%,
-      var(--blue) 47%,
+      transparent 48%,
+      var(--blue) 48%,
       var(--blue) 50%,
       rgba(4, 72, 132, 0.1) 50%,
-      rgba(4, 72, 132, 0.1) 97%,
-      var(--blue) 97%,
+      rgba(4, 72, 132, 0.1) 98%,
+      var(--blue) 98%,
       var(--blue) 100%
     );
-    background-size: 100% 3rem;
+    background-size: 100% 3.4rem;
     background-repeat: repeat;
     background-position: 0 0rem;
     padding-top: 0;
     height: 100%;
     p {
-      line-height: 1.5rem;
+      line-height: 1.7rem;
       margin-bottom: 0 !important;
       text-indent: 1.5rem;
       text-align: justify;
       hyphens: auto;
+      font-size: 1.2rem;
     }
   }
   h3 {
     text-align: center;
     margin-top: 20px;
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--blue);
   }
 }

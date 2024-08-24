@@ -1,76 +1,74 @@
 <template>
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Revisando Correção" />
+  <div class="container">
+    <div class="holder-resultado-redacao" v-if="curRedacao.text">
+      <RedacaoDisplay :titulo="curRedacao.title" :texto="curRedacao.text" />
+      <div class="grid-competencias">
+        <CardNotaCompetencia
+          :isEditing="isEditing"
+          title="Competência 1"
+          tooltip="Domínio da escrita formal da língua portuguesa."
+          :nota="curRedacao.criteriaScore1"
+          maxNota="200"
+          :delay="100"
+          @change="(value) => changeNota(1, value)"
+        />
+        <CardNotaCompetencia
+          :isEditing="isEditing"
+          title="Competência 2"
+          tooltip="Compreender o tema e não fugir do que é proposto."
+          :nota="parseInt(curRedacao.criteriaScore2)"
+          maxNota="200"
+          :delay="300"
+          @change="(value) => changeNota(2, value)"
+        />
+        <CardNotaCompetencia
+          :isEditing="isEditing"
+          title="Competência 3"
+          tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
+          :nota="parseInt(curRedacao.criteriaScore3)"
+          maxNota="200"
+          :delay="450"
+          @change="(value) => changeNota(3, value)"
+        />
+        <CardNotaCompetencia
+          :isEditing="isEditing"
+          title="Competência 4"
+          tooltip="Conhecimento dos mecanismos linguísticos necessários para a construção da argumentação."
+          :nota="parseInt(curRedacao.criteriaScore4)"
+          maxNota="200"
+          :delay="550"
+          @change="(value) => changeNota(4, value)"
+        />
+        <CardNotaCompetencia
+          :isEditing="isEditing"
+          title="Competência 5"
+          tooltip="Respeito aos direitos humanos."
+          :nota="parseInt(curRedacao.criteriaScore5)"
+          maxNota="200"
+          :delay="600"
+          @change="(value) => changeNota(5, value)"
+        />
+        <CardNotaCompetencia
+          title="Nota Final"
+          tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
+          :nota="curRedacao.finalScore"
+          maxNota="1000"
+          :delay="625"
+          destaque
+        />
+      </div>
+    </div>
+  </div>
   <div
     class="container main-page-container"
     v-if="curRedacao && Object.keys(curRedacao).length > 0"
   >
-    <div class="grid-notas">
-      <CardNotaCompetencia
-        :isEditing="isEditing"
-        title="Competência 1"
-        tooltip="Domínio da escrita formal da língua portuguesa."
-        :nota="curRedacao.criteriaScore1"
-        maxNota="200"
-        :delay="100"
-        @change="(value) => changeNota(1, value)"
-      />
-      <CardNotaCompetencia
-        :isEditing="isEditing"
-        title="Competência 2"
-        tooltip="Compreender o tema e não fugir do que é proposto."
-        :nota="parseInt(curRedacao.criteriaScore2)"
-        maxNota="200"
-        :delay="300"
-        @change="(value) => changeNota(2, value)"
-      />
-      <CardNotaCompetencia
-        :isEditing="isEditing"
-        title="Competência 3"
-        tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
-        :nota="parseInt(curRedacao.criteriaScore3)"
-        maxNota="200"
-        :delay="450"
-        @change="(value) => changeNota(3, value)"
-      />
-      <CardNotaCompetencia
-        :isEditing="isEditing"
-        title="Competência 4"
-        tooltip="Conhecimento dos mecanismos linguísticos necessários para a construção da argumentação."
-        :nota="parseInt(curRedacao.criteriaScore4)"
-        maxNota="200"
-        :delay="550"
-        @change="(value) => changeNota(4, value)"
-      />
-      <CardNotaCompetencia
-        :isEditing="isEditing"
-        title="Competência 5"
-        tooltip="Respeito aos direitos humanos."
-        :nota="parseInt(curRedacao.criteriaScore5)"
-        maxNota="200"
-        :delay="600"
-        @change="(value) => changeNota(5, value)"
-      />
-      <CardNotaCompetencia
-        title="Nota Final"
-        tooltip="Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista."
-        :nota="curRedacao.finalScore"
-        maxNota="1000"
-        :delay="625"
-        destaque
-      />
-    </div>
-
     <h2>Tema da redação</h2>
     <p>
       {{ curRedacao.prompt }}
     </p>
-    <h2>Titulo da redação</h2>
-    <p>
-      {{ curRedacao.title }}
-    </p>
-    <h2>Redação:</h2>
-    <p v-html="formatText(curRedacao.text)"></p>
-    <h2>Feedback:</h2>
+    <h2>Feedback</h2>
     <div
       style="margin-bottom: 30px"
       v-html="marked(curRedacao.comments)"
@@ -84,6 +82,11 @@
       ></textarea>
     </div>
 
+    <h2>Aluno</h2>
+    <StudentsSelection
+      :isEditing="isEditing"
+      :curName="curRedacao.student ? curRedacao.student.name : ''"
+    />
     <div class="options d-flex">
       <button class="btn-padrao" @click="iniciarEdicao" v-if="!isEditing">
         Editar<svg
@@ -131,7 +134,6 @@
       </button>
       <button class="btn-padrao" v-if="!curRedacao.finished" @click="finalizar">Finalizar</button>
     </div>
-
     <LoadingOverlay v-if="isLoading" />
   </div>
 </template>
@@ -140,6 +142,8 @@
 import LoadingOverlay from '@/components/Basic/LoadingOverlay.vue'
 import CardNotaCompetencia from '@/components/Items/CardNotaCompetencia.vue'
 import LayoutBreadcrumb from '@/components/Layout/Breadcrumb.vue'
+import RedacaoDisplay from '@/components/Section/RedacaoDisplay.vue'
+import StudentsSelection from '@/components/Section/StudentsSelection.vue'
 import { marked } from 'marked'
 import { type Breadcrumb } from '@/types/Breadcrumb'
 import { useStore } from 'vuex'
@@ -283,7 +287,7 @@ h2 {
       margin-bottom: 15px;
     }
   }
-  button {
+  button:not(:last-child) {
     margin-right: 15px;
   }
 }
@@ -298,5 +302,26 @@ h2 {
   font-family: 'Plein-Regular';
   font-size: 1rem;
   margin-block: 20px;
+}
+
+.holder-resultado-redacao {
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .grid-competencias {
+    margin-top: 20px;
+    width: 100%;
+    @media (min-width: 768px) {
+      padding-left: 20px;
+      margin-top: 0;
+    }
+    display: grid;
+    grid-template-columns: 1fr;
+    height: fit-content;
+    gap: 1rem;
+  }
 }
 </style>
