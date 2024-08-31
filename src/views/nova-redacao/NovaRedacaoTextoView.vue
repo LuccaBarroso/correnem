@@ -108,6 +108,7 @@ const createRedacao = (e) => {
   e.preventDefault()
   loading.value = true
   if (validate()) {
+    document.body.style.overflow = 'hidden'
     store
       .dispatch('redacao/createRedacao', {
         title: title.value,
@@ -119,10 +120,12 @@ const createRedacao = (e) => {
         error.value = ''
         router.push('/redacao/' + result.id)
         loading.value = false
+        document.body.style.overflow = 'auto'
       })
       .catch((err) => {
         loading.value = false
         error.value = err.message
+        document.body.style.overflow = 'auto'
       })
   } else {
     loading.value = false
@@ -170,7 +173,7 @@ const createRedacao = (e) => {
 .final {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .btn-padrao {
   padding: 5px 20px;
