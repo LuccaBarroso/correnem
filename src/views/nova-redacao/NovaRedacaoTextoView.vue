@@ -235,6 +235,7 @@ const createRedacao = (e) => {
 }
 
 function changeInputTema() {
+  isThemeSelected.value = true
   if (!theme.value) {
     sugestoes.value = []
   } else {
