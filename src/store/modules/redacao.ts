@@ -9,7 +9,12 @@ const getters = {}
 const actions = {
   createRedacao(
     { commit }: { commit: any },
-    { title, text, theme }: { title: string; text: string; theme: string }
+    {
+      title,
+      text,
+      theme,
+      nomeAluno
+    }: { title: string; text: string; theme: string; nomeAluno: string }
   ) {
     return new Promise((resolve, reject) => {
       fetch(import.meta.env.VITE_APP_API_URL + '/correnem-llm-ms/llm/corrigir-redacao', {
@@ -18,7 +23,7 @@ const actions = {
           'Content-Type': 'application/json'
         },
         credentials: 'include',
-        body: JSON.stringify({ titulo: title, texto: text, tema: theme })
+        body: JSON.stringify({ titulo: title, texto: text, tema: theme, nomeAluno: nomeAluno })
       })
         .then((response) => {
           return { data: response.json(), status: response.status }
@@ -87,8 +92,12 @@ const actions = {
         })
         .then(async (data) => {
           const responseData = await data.data
+          let temp = responseData.redacao
+          if (responseData.aluno) {
+            temp.nomeAluno = responseData.aluno.nome
+          }
           if (data.status === 200) {
-            commit('setRedacaoAtual', responseData.redacao)
+            commit('setRedacaoAtual', temp)
             resolve({ error: false, data: responseData })
           } else {
             resolve({ error: true, message: responseData?.message })

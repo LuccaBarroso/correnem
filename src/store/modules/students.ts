@@ -4,7 +4,10 @@ const state = () => ({
 
 // getters
 const getters = {
-  getStudentsAtual: (state: any) => {
+  getStudentsAtual() {
+    if (state.studentsAtual === null) {
+      state.dispatch('getStudents')
+    }
     return state.studentsAtual
   }
 }
@@ -12,11 +15,8 @@ const getters = {
 // actions
 const actions = {
   getStudents({ commit }: { commit: any }) {
-    if (state.studentsAtual !== null) {
-      return state.studentsAtual
-    }
     return new Promise((resolve, reject) => {
-      fetch(import.meta.env.VITE_APP_API_URL + '/correnem-redacao-ms/alunos', {
+      fetch(import.meta.env.VITE_APP_API_URL + '/correnem-redacao-ms/redacao/alunos', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -41,6 +41,8 @@ const actions = {
     })
   }
 }
+
+// action would be called as this.$store.dispatch('students/getStudents', payload)
 
 // mutations
 const mutations = {

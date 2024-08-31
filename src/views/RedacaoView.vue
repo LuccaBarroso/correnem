@@ -85,7 +85,8 @@
     <h2>Aluno</h2>
     <StudentsSelection
       :isEditing="isEditing"
-      :curName="curRedacao.student ? curRedacao.student.name : ''"
+      :curName="curRedacao.nomeAluno"
+      @change-aluno="changeAluno"
     />
     <div class="options d-flex">
       <button class="btn-padrao" @click="iniciarEdicao" v-if="!isEditing">
@@ -161,6 +162,7 @@ let isLoading = ref(false)
 
 let originalRedacao = ref(null)
 let curRedacao = reactive({})
+let curStudent = ref('')
 
 const breadcrumbs: Breadcrumb[] = []
 const redacao = computed(() => store.state.redacao.redacaoAtual)
@@ -169,7 +171,7 @@ watch(
   redacao,
   (newVal) => {
     if (newVal && newVal.redacao) {
-      Object.assign(curRedacao, newVal.redacao) // Use Object.assign to update reactive object
+      Object.assign(curRedacao, newVal.redacao)
       originalRedacao.value = { ...curRedacao }
     }
   },
@@ -189,7 +191,6 @@ async function initialPageLoad() {
     }
   }
 
-  console.log('redacao', redacao.value)
   if (redacao.value) {
     curRedacao = Object.assign(curRedacao, redacao.value)
     originalRedacao = { ...curRedacao }
@@ -255,6 +256,10 @@ async function finalizar() {
     .catch((err) => {
       isLoading.value = false
     })
+}
+
+function changeAluno(nome: string) {
+  curRedacao.nomeAluno = nome
 }
 </script>
 

@@ -4,7 +4,7 @@
     <RouterLink to="/nova-redacao" class="back-link"> Mudar forma de envio </RouterLink>
     <form class="redacoes form">
       <div class="input">
-        <label>Qual o titulo da sua redação?</label>
+        <label>Qual o titulo da sua redação? <span class="opcional">(opcional)</span></label>
         <input type="text" v-model="title" placeholder="Título da redação" />
         <div class="error-input" v-if="errorTitle">{{ errorTitle }}</div>
       </div>
@@ -22,6 +22,10 @@
         <label>Qual o tema da sua redação?</label>
         <input type="text" v-model="theme" placeholder="Tema da redação" />
         <div class="error-input" v-if="errorTheme">{{ errorTheme }}</div>
+      </div>
+      <div class="input">
+        <label>A qual aluno pertence essa redação ? <span class="opcional">(opcional)</span></label>
+        <CardInputAluno :initial="null" @change-aluno="changeAluno" />
       </div>
       <div class="error-input" v-if="error">{{ error }}</div>
       <div class="final">
@@ -52,9 +56,10 @@
 import LoadingOverlay from '@/components/Basic/LoadingOverlay.vue'
 import LayoutBreadcrumb from '@/components/Layout/Breadcrumb.vue'
 import { type Breadcrumb } from '@/types/Breadcrumb'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import CardInputAluno from '@/components/Items/CardInputAluno.vue'
 
 const store = useStore()
 const router = useRouter()
@@ -70,14 +75,20 @@ const errorText = ref<string>('')
 const errorTheme = ref<string>('')
 const error = ref<string>('')
 
+const novoAluno = ref<string>('')
+
+function changeAluno(nome: any) {
+  novoAluno.value = nome
+}
+
 const validate = () => {
   let isValid = true
-  if (!title.value) {
-    errorTitle.value = 'O título da redação é obrigatório'
-    isValid = false
-  } else {
-    errorTitle.value = ''
-  }
+  // if (!title.value) {
+  //   errorTitle.value = 'O título da redação é obrigatório'
+  //   isValid = false
+  // } else {
+  //   errorTitle.value = ''
+  // }
   if (!text.value) {
     errorText.value = 'O texto da redação é obrigatório'
     isValid = false
@@ -101,7 +112,8 @@ const createRedacao = (e) => {
       .dispatch('redacao/createRedacao', {
         title: title.value,
         text: text.value,
-        theme: theme.value
+        theme: theme.value,
+        nomeAluno: novoAluno.value
       })
       .then((result) => {
         error.value = ''
@@ -130,6 +142,10 @@ const createRedacao = (e) => {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+  span.opcional {
+    font-weight: 400;
+    color: var(--blue);
+  }
   label {
     font-size: 1.1rem;
     font-family: 'Plein-Medium';
