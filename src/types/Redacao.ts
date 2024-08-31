@@ -4,4 +4,5 @@ export interface Redacao {
   result: number
   status: string
   img: string
+  isFinished: boolean
 }

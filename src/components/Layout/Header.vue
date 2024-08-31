@@ -7,7 +7,7 @@
       <div class="container">
         <BasicLogo />
         <div class="right-side">
-          <div :class="['hamburguer', { active: showMenu }]" @click="showMenu = !showMenu">
+          <div :class="['hamburguer', { active: showMenu }]" @click="toggleMenu">
             <span></span>
             <span></span>
             <span></span>
@@ -63,6 +63,16 @@ const showMenu = ref(false)
 function menuClick(e: Event) {
   if ((e.target as HTMLElement).tagName === 'A') {
     showMenu.value = false
+    document.body.style.overflow = 'auto'
+  }
+}
+
+function toggleMenu() {
+  showMenu.value = !showMenu.value
+  if (showMenu.value) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = 'auto'
   }
 }
 </script>
