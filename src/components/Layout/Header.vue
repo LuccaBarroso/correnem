@@ -75,6 +75,13 @@ function toggleMenu() {
     document.body.style.overflow = 'auto'
   }
 }
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 992) {
+    showMenu.value = false
+    document.body.style.overflow = 'auto'
+  }
+})
 </script>
 
 <style lang="scss" scoped>

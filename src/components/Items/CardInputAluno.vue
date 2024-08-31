@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="content-new" v-else>
-        <h5>Digite o nome do novo aluno:</h5>
+        <h5>Digite o nome do aluno:</h5>
         <input type="text" v-model="novoAluno" placeholder="Nome do aluno" />
       </div>
     </div>
