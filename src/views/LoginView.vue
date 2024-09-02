@@ -27,9 +27,9 @@
           <div class="error-input" v-if="genericError">{{ genericError }}</div>
           <div class="final-line row">
             <div class="col-lg-6 d-flex align-items-center">
-              <RouterLink to="/forgot-password" class="link-extra">
+              <!-- <RouterLink to="/forgot-password" class="link-extra">
                 <p>Esqueceu sua senha ? <span>Clique aqui</span> para recuperar</p>
-              </RouterLink>
+              </RouterLink> -->
             </div>
             <div class="col-lg-6 d-flex justify-content-end align-items-center">
               <button

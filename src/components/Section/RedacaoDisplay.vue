@@ -20,6 +20,7 @@ const props = defineProps({
 })
 
 function formatText(text: string): string {
+  text = text.replace(/^```/, '').replace(/```$/, '')
   return (
     '<p style="margin-bottom: 0;">' +
     text.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>') +
@@ -59,9 +60,9 @@ function formatText(text: string): string {
       line-height: 1.7rem;
       margin-bottom: 0 !important;
       text-indent: 1.5rem;
-      text-align: justify;
       hyphens: auto;
-      font-size: 1.2rem;
+      overflow-x: hidden;
+      word-wrap: break-word;
     }
   }
   h3 {
