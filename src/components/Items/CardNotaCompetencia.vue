@@ -130,6 +130,10 @@ const valueChanged = () => {
     curNewVal.value = 0
   }
 
+  if (curNewVal.value == '' || curNewVal.value == null) {
+    curNewVal.value = 0
+  }
+
   emit('change', curNewVal.value)
 }
 

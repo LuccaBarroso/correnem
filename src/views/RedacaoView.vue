@@ -80,6 +80,7 @@
         class="input-textarea"
         placeholder="Digite aqui o feedback da redação"
       ></textarea>
+      <div class="error-input" v-if="!curRedacao.comments">O feedback não pode estar vazio</div>
     </div>
 
     <h2>Aluno</h2>
@@ -117,7 +118,12 @@
           />
         </svg>
       </button>
-      <button class="btn-padrao" v-if="isEditing" @click="salvarEdicao">
+      <button
+        class="btn-padrao"
+        @click="salvarEdicao"
+        v-if="isEditing"
+        :disabled="!curRedacao.comments"
+      >
         Salvar<svg
           width="16"
           height="12"
@@ -306,7 +312,7 @@ h2 {
   border-radius: 5px;
   font-family: 'Plein-Regular';
   font-size: 1rem;
-  margin-block: 20px;
+  margin-top: 20px;
 }
 
 .holder-resultado-redacao {
@@ -328,5 +334,12 @@ h2 {
     height: fit-content;
     gap: 1rem;
   }
+}
+
+.error-input {
+  font-family: 'Plein-Medium';
+  font-size: 0.9rem;
+  color: var(--red);
+  margin-top: 5px;
 }
 </style>

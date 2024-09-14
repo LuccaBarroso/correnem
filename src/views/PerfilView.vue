@@ -24,6 +24,9 @@ const store = useStore()
 const router = useRouter()
 
 const userName = computed(() => {
+  if (!store.state.login.name) {
+    return ''
+  }
   return store.state.login.name
 })
 

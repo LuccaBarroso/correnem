@@ -80,6 +80,8 @@ const actions = {
           if (data.status === 200) {
             commit('setLogged', false)
             commit('setLoggedTime', null)
+            commit('setUser', null)
+            commit('setUserName', '')
             resolve(data)
           } else {
             reject(data)
@@ -178,10 +180,14 @@ const mutations = {
   },
   setUser(state: any, user: any) {
     state.user = user
-    state.name = user.perfil.nome
+    if (user && user.perfil && user.perfil.nome) {
+      state.name = user.perfil.nome
+    }
   },
   setUserName(state: any, name: string) {
-    state.user.nome = name
+    if (state.user) {
+      state.user.nome = name
+    }
     state.name = name
   }
 }

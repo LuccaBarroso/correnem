@@ -1,13 +1,17 @@
 <template>
   <LayoutBreadcrumb :breadcrumbs="breadcrumbs" title="Suas Redações" />
   <div class="container main-page-container">
-    <div class="redações">
+    <div class="redacoes">
       <PreviewRedacoes
         :redacoes="redacoes"
         title="Redações Mais Recentes"
         initialQuantity="12"
         :loading="loading.value"
+        v-if="redacoes.length > 0"
       />
+      <div v-else-if="redacoes.length == 0 && !loading">
+        <p class="no-redacoes">Você ainda não cadastrou nenhuma redação.</p>
+      </div>
       <Pagination
         :totalPages="totalPages"
         :curPage="curPage"
@@ -56,4 +60,11 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.no-redacoes {
+  font-size: 1rem;
+  text-align: center;
+  margin-block: 2rem;
+  width: 100%;
+}
+</style>

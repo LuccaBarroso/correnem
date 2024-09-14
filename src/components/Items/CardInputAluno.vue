@@ -120,12 +120,20 @@ const novoAluno = ref<string>('')
 
 const changeAluno = (student: any) => {
   selectedAluno.value = student.nome
-  emit('change-aluno', student.nome)
+  emitingChange(student.nome)
 }
 
 watch(novoAluno, () => {
-  emit('change-aluno', novoAluno.value)
+  emitingChange(novoAluno.value)
 })
+
+const emitingChange = (value) => {
+  if (value.trim().length === 0) {
+    emit('change-aluno', '')
+  } else {
+    emit('change-aluno', value)
+  }
+}
 </script>
 
 <style scoped lang="scss">
