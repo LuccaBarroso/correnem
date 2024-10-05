@@ -9,6 +9,8 @@ import NovaRedacaoTextoView from '../views/nova-redacao/NovaRedacaoTextoView.vue
 import RedacaoCorrigidaView from '../views/RedacaoCorrigidaView.vue'
 import perfil from '../views/PerfilView.vue'
 import RedacaoView from '../views/RedacaoView.vue'
+import NovaRedacaoFotoView from '../views/nova-redacao/NovaRedacaoFotoView.vue'
+import NovaRedacaoImagemView from '../views/nova-redacao/NovaRedacaoImagemView.vue'
 import store from '../store'
 
 const router = createRouter({
@@ -45,6 +47,18 @@ const router = createRouter({
       path: '/nova-redacao/texto',
       name: 'NovaRedacaoTexto',
       component: NovaRedacaoTextoView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/nova-redacao/foto',
+      name: 'NovaRedacaoFoto',
+      component: NovaRedacaoFotoView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/nova-redacao/imagem',
+      name: 'NovaRedacaoImagem',
+      component: NovaRedacaoImagemView,
       meta: { requiresAuth: true }
     },
     {

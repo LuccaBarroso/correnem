@@ -3,6 +3,13 @@
   <div class="container">
     <RouterLink to="/nova-redacao" class="back-link"> Mudar forma de envio </RouterLink>
     <form class="redacoes form">
+      <div class="ocr-msg" v-if="usedOcr">
+        <p>
+          O texto foi preenchido automaticamente a partir da imagem. Lembre-se de que a leitura da
+          imagem pode não ser 100% precisa, então é importante revisar o conteúdo antes de finalizar
+          a redação.
+        </p>
+      </div>
       <div class="input">
         <label>Qual o titulo da sua redação? <span class="opcional">(opcional)</span></label>
         <input type="text" v-model="title" placeholder="Título da redação" />
@@ -168,6 +175,7 @@ const errorTitle = ref<string>('')
 const errorText = ref<string>('')
 const errorTheme = ref<string>('')
 const error = ref<string>('')
+const usedOcr = ref<boolean>(false)
 
 const novoAluno = ref<string>('')
 
@@ -261,6 +269,15 @@ window.addEventListener('click', (e) => {
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     isThemeSelected.value = false
+  }
+})
+
+onMounted(() => {
+  const redacao = localStorage.getItem('redacao')
+  if (redacao) {
+    text.value = redacao
+    usedOcr.value = true
+    localStorage.removeItem('redacao')
   }
 })
 </script>
@@ -381,6 +398,20 @@ window.addEventListener('keydown', (e) => {
         }
       }
     }
+  }
+}
+
+.ocr-msg {
+  background-color: #e6f4e6;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  p {
+    font-size: 1rem;
+    font-family: 'Switzer-Medium';
+    color: var(--black);
+    margin-bottom: 0;
   }
 }
 </style>

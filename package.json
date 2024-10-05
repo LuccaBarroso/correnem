@@ -17,6 +17,7 @@
     "marked": "^12.0.2",
     "sass": "^1.72.0",
     "vue": "^3.4.21",
+    "vue-advanced-cropper": "^2.8.9",
     "vue-router": "^4.3.0",
     "vuex": "^4.1.0"
   },
