@@ -228,7 +228,11 @@ const createRedacao = (e) => {
       })
       .then((result) => {
         error.value = ''
-        router.push('/redacao/' + result.id)
+        if (result.id) {
+          router.push('/redacao/' + result.id)
+        } else {
+          error.value = 'Erro ao criar redação'
+        }
         loading.value = false
         document.body.style.overflow = 'auto'
       })
