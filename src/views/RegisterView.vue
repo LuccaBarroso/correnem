@@ -119,6 +119,41 @@ function validatePassword() {
     passwordError.value = 'Campo obrigatório'
     return false
   }
+  if (password.value.length < 8) {
+    passwordError.value = 'Senha muito curta (mínimo 8 caracteres)'
+    return false
+  }
+  // contem letras e numeros
+  if (!/[a-zA-Z]/.test(password.value) || !/[0-9]/.test(password.value)) {
+    passwordError.value = 'Senha deve conter letras e números'
+    return false
+  }
+  // contem caracteres especiais
+  if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password.value)) {
+    passwordError.value = 'Senha deve conter caracteres especiais'
+    return false
+  }
+  let fracos = [
+    '123456',
+    '12345',
+    'senha',
+    '1234',
+    '123',
+    'abc',
+    'senha123',
+    'senha1234',
+    'senha12345',
+    'correnem'
+  ]
+  // if password contains any of the weak passwords
+  if (fracos.some((weak) => password.value.includes(weak))) {
+    let weakPassword = fracos.find((weak) => password.value.includes(weak))
+    passwordError.value =
+      'Senha muito fraca, não use senhas que contenham informações fracas como "' +
+      weakPassword +
+      '"'
+    return false
+  }
   passwordError.value = ''
   return true
 }
