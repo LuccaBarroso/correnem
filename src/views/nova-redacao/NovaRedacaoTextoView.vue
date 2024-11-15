@@ -230,16 +230,18 @@ const createRedacao = (e) => {
         error.value = ''
         if (result.id) {
           router.push('/redacao/' + result.id)
+          loading.value = false
+          document.body.style.overflow = 'auto'
         } else {
-          error.value = 'Erro ao criar redação'
+          setTimeout(() => {
+            createRedacao(e)
+          }, 200)
         }
-        loading.value = false
-        document.body.style.overflow = 'auto'
       })
       .catch((err) => {
-        loading.value = false
-        error.value = err.message
-        document.body.style.overflow = 'auto'
+        setTimeout(() => {
+          createRedacao(e)
+        }, 200)
       })
   } else {
     loading.value = false
