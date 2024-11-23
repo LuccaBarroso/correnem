@@ -219,13 +219,19 @@ const createRedacao = (e) => {
   loading.value = true
   if (validate()) {
     document.body.style.overflow = 'hidden'
+    let requestBody = {
+      text: text.value,
+      theme: theme.value,
+      nomeAluno: novoAluno.value
+    }
+    if (title.value) {
+      requestBody = {
+        ...requestBody,
+        title: title.value
+      }
+    }
     store
-      .dispatch('redacao/createRedacao', {
-        title: title.value,
-        text: text.value,
-        theme: theme.value,
-        nomeAluno: novoAluno.value
-      })
+      .dispatch('redacao/createRedacao', requestBody)
       .then((result) => {
         error.value = ''
         if (result.id) {
